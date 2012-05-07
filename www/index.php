@@ -1,6 +1,6 @@
 <?php
-	require_once '../moskva/Moskva.php';
+    require_once '../moskva/Moskva.php';
 
-	Moskva::createInstance('../app');
-	Moskva::getInstance()->handleHttpRequest();
+    Moskva::createInstance('../app');
+    Moskva::getInstance()->handleHttpRequest();
 ?>
