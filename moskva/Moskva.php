@@ -9,10 +9,8 @@ class Moskva {
 	 * @var $_instance Moskva
 	 */
 	private static $_instance = null;
-    private $rootDir;
 	public static function createInstance($dir) {
-		Moskva::$_instance = new Moskva();
-        Moskva::$_instance->rootDir = $dir;
+		Moskva::$_instance = new Moskva($dir);
 	}
 
 	/**
@@ -21,6 +19,59 @@ class Moskva {
 	 */
 	public static function getInstance() {
 		return self::$_instance;
+	}
+
+
+	private $rootDir;
+
+	private $db;
+
+	private function __construct($dir) {
+		set_error_handler(array($this, 'handleError'));
+		set_exception_handler(array($this, 'handleException'));
+		spl_autoload_register(array($this, 'handleClassNotFound'));
+		error_reporting(E_ALL);
+
+		$this->rootDir = $dir;
+
+		Autoloader::getInstance()->loadMoskvaParts();
+
+		$this->db = new mDbConnection($this->loadConfig('database'));
+	}
+
+	public function handleError($errno ,$errstr) {
+
+		switch ($errno) {
+			case E_NOTICE: return true;
+		}
+
+		throw new MoskvaException('php error with errno=' . $errno . ' (' . $errstr . ')');
+
+		return true;
+	}
+
+	public function handleException(Exception $e) {
+		$this->handleErrorException($e);
+		return true;
+	}
+
+	public function handleClassNotFound($classname) {
+		throw new MoskvaException($classname . ' class was not found');
+	}
+
+	private  function handleErrorException(Exception $exception) {
+		print "Exception: " . $exception;
+		echo '<br/>';
+		echo '<pre>';
+		debug_print_backtrace();
+		echo '</pre>';
+		exit(1);
+	}
+
+	private function loadConfig($configType) {
+		$file = $this->rootDir . '/config/' . $configType . '.config.php';
+
+		return include $file;
 	}
 
     private function getArgumentsOfAction($controllerName, $actionName){
