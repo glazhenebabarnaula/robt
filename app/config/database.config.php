@@ -1,7 +1,8 @@
 <?php
 
 return array(
-	'connectionString' => 'mysql:host=localhost;dbname=nomerok',
+	'driver' => 'pdo_mysql',
 	'user' => 'root',
 	'password' => '76d18e98n',
+	'dbname' => 'robt',
 );

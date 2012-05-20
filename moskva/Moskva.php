@@ -22,9 +22,18 @@ class Moskva {
 	}
 
 
-	private $rootDir;
+	private $appDir;
 
+	/**
+	 * @var \Doctrine\DBAL\Driver\Connection
+	 */
 	private $db;
+	/**
+	 * @var \Doctrine\ORM\EntityManager
+	 */
+	private $entityManager;
+
+	private $isDebug = true;
 
 	private function __construct($dir) {
 		set_error_handler(array($this, 'handleError'));
@@ -32,11 +41,24 @@ class Moskva {
 		spl_autoload_register(array($this, 'handleClassNotFound'));
 		error_reporting(E_ALL);
 
-		$this->rootDir = $dir;
+		$this->appDir = $dir;
 
 		Autoloader::getInstance()->loadMoskvaParts();
 
-		$this->db = new mDbConnection($this->loadConfig('database'));
+		$this->initDb();
+	}
+
+	public function isDebug() {
+		return $this->isDebug;
+	}
+
+	private function initDb() {
+
+		Autoloader::getInstance()->importModels($this->appDir);
+		$doctrineConfigurator = new DoctrineConfigurator();
+
+		$this->db = $doctrineConfigurator->createConnection($this->loadConfig('database'));
+		$this->entityManager = $doctrineConfigurator->createEntityManager($this->db, $this->appDir);
 	}
 
 	public function handleError($errno ,$errstr) {
@@ -45,7 +67,7 @@ class Moskva {
 			case E_NOTICE: return true;
 		}
 
-		throw new MoskvaException('php error with errno=' . $errno . ' (' . $errstr . ')');
+		$this->handleException(new MoskvaException('php error with errno=' . $errno . ' (' . $errstr . ')'));
 
 		return true;
 	}
@@ -56,7 +78,10 @@ class Moskva {
 	}
 
 	public function handleClassNotFound($classname) {
-		throw new MoskvaException($classname . ' class was not found');
+		if (class_exists($classname)) {
+			return true;
+		}
+		return false;
 	}
 
 	private  function handleErrorException(Exception $exception) {
@@ -69,7 +94,7 @@ class Moskva {
 	}
 
 	private function loadConfig($configType) {
-		$file = $this->rootDir . '/config/' . $configType . '.config.php';
+		$file = $this->appDir . '/config/' . $configType . '.config.php';
 
 		return include $file;
 	}
@@ -95,12 +120,12 @@ class Moskva {
 
 	public function handleHttpRequest() {
 		$requestedUri = $_SERVER['REQUEST_URI'];
-        $router = new Router($this->rootDir);
+        $router = new Router($this->appDir);
         $routeArray = $router->resolveUrl($requestedUri);
         $controller = $routeArray['controller'];
         $action = $routeArray['action'];
 
-        Autoloader::loadControllers("{$this->rootDir}/controllers");
+        Autoloader::loadControllers("{$this->appDir}/controllers");
 
         if(class_exists($controller)){
             $instance = new $controller();
@@ -112,4 +137,18 @@ class Moskva {
         }
         echo "404, controller or action not found";
     }
+
+	public function handleDoctrineCommand() {
+		DoctrineCommand::createInstance()->run();
+	}
+
+	public function getDb()
+	{
+		return $this->db;
+	}
+
+	public function getEntityManager()
+	{
+		return $this->entityManager;
+	}
 }
