@@ -1,2 +1,3 @@
 /app/config/database.config.php
 app/cache/*
+.idea/*
