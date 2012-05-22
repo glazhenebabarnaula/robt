@@ -1,22 +1,18 @@
 <?php
+
 abstract class mValidatorAttribute extends mValidator {
 	protected $attribute;
 
 	protected $message_required = 'Необходимо заполнить поле';
 	protected $required = true;
 
-	public function __construct($attribute, $config) {
-		parent::__construct();
-		$this->attribute = $attribute;
-
-		foreach ($config as $k => $v) {
-			if (property_exists(get_class($this), $k)) {
-				$this->$k = $v;
-			}
-		}
+	public function __construct($config = array()) {
+		parent::__construct($config);
 	}
 
-	protected function cleanValues($values)
+
+
+	public function cleanValues($values)
 	{
 		$value = $values[$this->attribute];
 
@@ -36,4 +32,9 @@ abstract class mValidatorAttribute extends mValidator {
 	}
 
 	abstract protected function cleanValue($value);
+
+	public function setAttribute($attribute)
+	{
+		$this->attribute = $attribute;
+	}
 }

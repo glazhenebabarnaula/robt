@@ -1,10 +1,5 @@
 <?php
 class Autoloader{
-    public static  function loadControllers($controllers){
-        foreach(glob("{$controllers}/*.php") as $controller){
-            require_once $controller;
-        }
-    }
 
 	private static $_instance = null;
 
@@ -29,13 +24,21 @@ class Autoloader{
 	}
 
 	public function loadMoskvaParts() {
-		$dirs = array('exception', 'db');
+		$dirs = array('.', 'exception', 'db', 'validator', 'validator/*', 'form', 'form/*');
 
 		foreach ($dirs as $dir) {
 			$this->importMoskvaDir($dir);
 		}
 
 		$this->loadDoctrine();
+	}
+
+	public function loadAppParts() {
+		$dirs = array('components', 'controllers', 'forms', 'models');
+
+		foreach ($dirs as $dir) {
+			$this->importAppDir($dir);
+		}
 	}
 
 	private function getLibDir() {
@@ -45,7 +48,9 @@ class Autoloader{
 	private function loadDoctrine() {
 
 		$this->importLibFile('doctrine/lib/Doctrine/ORM/Tools/Setup.php');
+		spl_autoload_unregister(array(Moskva::getInstance(), 'handleClassNotFound'));
 		Doctrine\ORM\Tools\Setup::registerAutoloadGit($this->getLibDir() . '/doctrine');
+		spl_autoload_register(array(Moskva::getInstance(), 'handleClassNotFound'));
 	}
 
 	public function importLibFile($filename) {
@@ -58,11 +63,16 @@ class Autoloader{
 		$this->importDir($this->moskvaDir . '/' . $dir);
 	}
 
+	public function importAppDir($dir) {
+		$this->importDir(Moskva::getInstance()->getAppDir() . '/' . $dir);
+	}
+
 	public function importModels($appDir) {
 		$this->importDir($appDir . '/models');
 	}
 
 	public function importDir($dir){
+
 		foreach(glob("{$dir}/*.php") as $file){
 			require_once $file;
 		}

@@ -1,4 +1,4 @@
 <?php
-abstract class mValidator {
+abstract class mValidator extends mComponent {
 	public abstract function cleanValues($values);
 }

@@ -34,6 +34,7 @@ class Moskva {
 	private $entityManager;
 
 	private $isDebug = true;
+	private $isInitialized = false;
 
 	private function __construct($dir) {
 		set_error_handler(array($this, 'handleError'));
@@ -43,9 +44,6 @@ class Moskva {
 
 		$this->appDir = $dir;
 
-		Autoloader::getInstance()->loadMoskvaParts();
-
-		$this->initDb();
 	}
 
 	public function isDebug() {
@@ -59,6 +57,18 @@ class Moskva {
 
 		$this->db = $doctrineConfigurator->createConnection($this->loadConfig('database'));
 		$this->entityManager = $doctrineConfigurator->createEntityManager($this->db, $this->appDir);
+	}
+
+	protected function init() {
+		if ($this->isInitialized) {
+			return false;
+		}
+		Autoloader::getInstance()->loadMoskvaParts();
+		Autoloader::getInstance()->loadAppParts();
+
+		$this->initDb();
+
+		$this->isInitialized = true;
 	}
 
 	public function handleError($errno ,$errstr) {
@@ -81,6 +91,7 @@ class Moskva {
 		if (class_exists($classname)) {
 			return true;
 		}
+		//throw new MoskvaException($classname . ' class was not found');
 		return false;
 	}
 
@@ -119,13 +130,13 @@ class Moskva {
     }
 
 	public function handleHttpRequest() {
+		$this->init();
+
 		$requestedUri = $_SERVER['REQUEST_URI'];
         $router = new Router($this->appDir);
         $routeArray = $router->resolveUrl($requestedUri);
         $controller = $routeArray['controller'];
         $action = $routeArray['action'];
-
-        Autoloader::loadControllers("{$this->appDir}/controllers");
 
         if(class_exists($controller)){
             $instance = new $controller();
@@ -139,6 +150,7 @@ class Moskva {
     }
 
 	public function handleDoctrineCommand() {
+		$this->init();
 		DoctrineCommand::createInstance()->run();
 	}
 
@@ -150,5 +162,10 @@ class Moskva {
 	public function getEntityManager()
 	{
 		return $this->entityManager;
+	}
+
+	public function getAppDir()
+	{
+		return realpath($this->appDir);
 	}
 }

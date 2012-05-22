@@ -1,18 +1,20 @@
 <?php
 
-abstract class mForm implements ArrayAccess {
-	protected $model;
+abstract class mForm extends mComponent implements ArrayAccess {
 	/**
 	 * @var mValidator[]
 	 */
 	protected $validators = array();
+	/**
+	 * @var mFormElement[]
+	 */
 	protected $elements = array();
+
 	protected $errors = array();
-	protected $values = array();
+	private $values = array();
 	protected $formName;
 
-	public function __construct($model) {
-		$this->model = $model;
+	public function __construct() {
 		$this->formName = get_class($this);
 
 		$this->configure();
@@ -21,7 +23,10 @@ abstract class mForm implements ArrayAccess {
 	abstract protected function configure();
 
 	public function render() {
-
+		foreach ($this->elements as $name => $element) {
+			$element->render($this->getElementName($name), $this->getValue($name), array(), $this->getErrors($name));
+			echo "<br/>";
+		}
 	}
 
 	private function addError($k, $message) {
@@ -33,15 +38,26 @@ abstract class mForm implements ArrayAccess {
 			}
 			$this->errors[$k][] = $message;
 		}
-
 	}
 
-	public function hasErrors() {
+	public function getValues() {
+		return $this->values;
+	}
+
+	public function getValue($key) {
+		$values= $this->getValues();
+		return isset($values[$key]) ? $values[$key] : null;
+	}
+
+	public function hasErrors($key = null) {
+		if (!is_null($key)) {
+			return isset($this->errors[$key]) && count($this->errors[$key]) > 0;
+		}
 		return count($this->errors) > 0;
 	}
 
 	public function getErrors($key) {
-		return $this->errors[$key];
+		return isset($this->errors[$key]) ? $this->errors[$key] : array();
 	}
 
 	public function getGlobalErrors() {
@@ -70,6 +86,10 @@ abstract class mForm implements ArrayAccess {
 		return !$this->hasErrors();
 	}
 
+	public function getElementName($elementName) {
+		return $this->formName . '[' . $elementName . ']';
+	}
+
 	public function loadDataFromRequest() {
 		$this->loadData($_POST[$this->formName]);
 	}
@@ -80,6 +100,23 @@ abstract class mForm implements ArrayAccess {
 				$this->values[$k] = $v;
 			}
 		}
+	}
+
+	public function setElement($name, mFormElement $element) {
+		$this->elements[$name] = $element;
+	}
+
+	public function getElement($name) {
+		return $this->elements[$name];
+	}
+
+	public function addValidator(mValidator $validator) {
+		$this->validators[] = $validator;
+	}
+
+	public function setAttributeValidator($element, mValidatorAttribute $validator) {
+		$this->validators[$element] = $validator;
+		$validator->setAttribute($element);
 	}
 
 	public function offsetExists($offset)
