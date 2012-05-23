@@ -1,6 +1,6 @@
 <?php
-class MainPage{
-    public function index(){
+class MainPageController{
+    public function indexAction(){
 		$test = new Test();
 		$test->setValue("test");
 		Moskva::getInstance()->getEntityManager()->persist($test);

@@ -113,7 +113,7 @@ class Moskva {
 		exit(1);
 	}
 
-	private function loadConfig($configType) {
+	public function loadConfig($configType) {
 		$file = $this->appDir . '/config/' . $configType . '.config.php';
 
 		return include $file;
@@ -130,7 +130,7 @@ class Moskva {
             }
             else{
                 if(!$arg->isOptional()){
-                    echo "400, not enough parameters in url";
+                    $this->handleError('400','not enough parameters in url');
                     exit();
                 }
             }
@@ -142,7 +142,7 @@ class Moskva {
 		$this->init();
 
 		$requestedUri = $_SERVER['REQUEST_URI'];
-        $router = new Router($this->appDir);
+        $router = new Router();
         $routeArray = $router->resolveUrl($requestedUri);
         $controller = $routeArray['controller'];
         $action = $routeArray['action'];
@@ -155,7 +155,7 @@ class Moskva {
                 exit();
             }
         }
-        echo "404, controller or action not found";
+        $this->handleError('404','controller or action not found');
     }
 
 	public function handleDoctrineCommand() {
