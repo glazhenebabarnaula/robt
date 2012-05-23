@@ -7,7 +7,7 @@ class DoctrineConfigurator {
 	}
 
 	public function createEntityManager(\Doctrine\DBAL\Connection $connection, $appDir) {
-		$modelsDirs = array(Autoloader::getInstance()->getMoskvaDir() . '/models', $appDir . '/models');
+		$modelsDirs = array(Autoloader::getInstance()->getMoskvaDir() . '/user/model', $appDir . '/models');
 
 		$config = new \Doctrine\ORM\Configuration();
 		$config->setMetadataDriverImpl($config->newDefaultAnnotationDriver($modelsDirs));

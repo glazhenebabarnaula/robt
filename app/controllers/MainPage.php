@@ -11,6 +11,18 @@ class MainPage{
 		print_r($tests);
 	}
 
+	public function login() {
+		if (Moskva::getInstance()->getUser()->isAuthenticated()) {
+			echo "already: " . Moskva::getInstance()->getUser()->getModel()->getUsername();
+			die();
+		}
+		var_dump(Moskva::getInstance()->getUser()->authenticate('sufix', '472120'));
+	}
+
+	public function logout() {
+		var_dump(Moskva::getInstance()->getUser()->logout());
+	}
+
 	public function testForm() {
 		$form = new TestForm(new Test());
 

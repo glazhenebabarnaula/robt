@@ -24,7 +24,7 @@ class Autoloader{
 	}
 
 	public function loadMoskvaParts() {
-		$dirs = array('.', 'util', 'exception', 'db', 'validator', 'validator/*', 'form', 'form/*');
+		$dirs = array('.', 'util', 'exception', 'db', 'validator', 'validator/*', 'form', 'form/*', 'user', 'user/*');
 
 		foreach ($dirs as $dir) {
 			$this->importMoskvaDir($dir);

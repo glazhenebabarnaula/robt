@@ -35,6 +35,10 @@ class Moskva {
 
 	private $isDebug = true;
 	private $isInitialized = false;
+	/**
+	 * @var mWebUser
+	 */
+	protected $user = null;
 
 	private function __construct($dir) {
 		set_error_handler(array($this, 'handleError'));
@@ -63,12 +67,17 @@ class Moskva {
 		if ($this->isInitialized) {
 			return false;
 		}
+
 		Autoloader::getInstance()->loadMoskvaParts();
 		Autoloader::getInstance()->loadAppParts();
 
 		$this->initDb();
 
+		$this->user = new mWebUser(array('em' => $this->getEntityManager()));
+
 		$this->isInitialized = true;
+
+		return true;
 	}
 
 	public function handleError($errno ,$errstr) {
@@ -167,5 +176,13 @@ class Moskva {
 	public function getAppDir()
 	{
 		return realpath($this->appDir);
+	}
+
+	/**
+	 * @return \mWebUser
+	 */
+	public function getUser()
+	{
+		return $this->user;
 	}
 }
