@@ -1,6 +1,6 @@
 <?php
 
-class TestForm extends mForm {
+class TestForm extends mModelForm {
 	protected function configure()
 	{
 		$this->setElement('value', new mInputTextFormElement());

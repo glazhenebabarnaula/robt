@@ -91,14 +91,20 @@ abstract class mForm extends mComponent implements ArrayAccess {
 	}
 
 	public function loadDataFromRequest() {
-		$this->loadData($_POST[$this->formName]);
+		$this->loadValues($_POST[$this->formName]);
 	}
 
-	public function loadData($data) {
+	public function setValue($k, $v) {
+		if (isset($this->elements[$k])) {
+			$this->values[$k] = $v;
+		} else {
+			throw new MoskvaException('there is now element with name' . $k . 'in ' . get_class($this));
+		}
+	}
+
+	public function loadValues($data) {
 		foreach ($data as $k => $v) {
-			if (isset($this->elements[$k])) {
-				$this->values[$k] = $v;
-			}
+			$this->setValue($k, $v);
 		}
 	}
 

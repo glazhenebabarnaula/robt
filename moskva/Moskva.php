@@ -74,7 +74,7 @@ class Moskva {
 	public function handleError($errno ,$errstr) {
 
 		switch ($errno) {
-			case E_NOTICE: return true;
+			//case E_NOTICE: return true;
 		}
 
 		$this->handleException(new MoskvaException('php error with errno=' . $errno . ' (' . $errstr . ')'));
