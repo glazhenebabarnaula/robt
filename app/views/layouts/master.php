@@ -7,6 +7,6 @@
 </head>
 <body>
 <h1>Welcome to the ROBT!</h1>
-<?php $this->renderChild(); ?>
+<?php echo $content; ?>
 </body>
 </html>

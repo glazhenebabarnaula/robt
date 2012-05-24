@@ -1,7 +1,6 @@
 <?php
 class Template{
     private $variables,
-            $child,
             $parentLayout,
             $templateName,
             $controller,
@@ -34,10 +33,6 @@ class Template{
         $this->parentLayout = $parentName;
     }
 
-    public function setChild($content){
-        $this->child = $content;
-    }
-
     public function render(){
         ob_start();
         foreach($this->variables as $key => $value){
@@ -51,17 +46,10 @@ class Template{
         }
         $content = ob_get_clean();
         if(isset($this->parentLayout)){
-            $parent = new Template($this->parentLayout, $this->variables, $this->viewsDir);
-            $parent->setChild($content);
+            $parent = new Template($this->parentLayout, array('content'=>$content), $this->viewsDir);
             return $parent->render();
         }
         return $content;
-    }
-
-    private function renderChild(){
-        if(isset($this->child)){
-            echo $this->child;
-        }
     }
 
     private function renderPartial($controller, $name){
