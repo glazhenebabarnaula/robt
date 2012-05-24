@@ -119,6 +119,12 @@ class Moskva {
 		return include $file;
 	}
 
+    public function getViewsPath() {
+        $file = $this->appDir . '/views/';
+
+        return $file;
+    }
+
     private function getArgumentsOfAction($controllerName, $actionName){
         $r = new ReflectionMethod($controllerName, $actionName);
         $args = $r->getParameters();

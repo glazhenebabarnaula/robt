@@ -1,5 +1,5 @@
 <?php
-class MainPageController{
+class MainPageController extends BaseController{
     public function indexAction(){
 		$test = new Test();
 		$test->setValue("test");
@@ -9,9 +9,10 @@ class MainPageController{
 		$tests = Moskva::getInstance()->getEntityManager()->getRepository('Test')->findAll();
 
 		print_r($tests);
+        echo $this->renderView(__FUNCTION__,array('indexMethodVar'=>'<p>Moskva slezam ne verit'));
 	}
 
-	public function login() {
+	public function loginAction() {
 		if (Moskva::getInstance()->getUser()->isAuthenticated()) {
 			echo "already: " . Moskva::getInstance()->getUser()->getModel()->getUsername();
 			die();
@@ -19,11 +20,11 @@ class MainPageController{
 		var_dump(Moskva::getInstance()->getUser()->authenticate('sufix', '472120'));
 	}
 
-	public function logout() {
+	public function logoutAction() {
 		var_dump(Moskva::getInstance()->getUser()->logout());
 	}
 
-	public function testForm() {
+	public function testFormAction() {
 		$form = new TestForm(new Test());
 
 		if (isset($_POST['TestForm'])) {
