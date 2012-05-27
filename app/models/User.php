@@ -1,14 +1,11 @@
 <?php
-
-namespace Moskva\User\Model;
-
-/** @Entity
+/**
+ * @Entity
  * @Table(name="users")
- */
-class User {
+ * */
+class User implements mUser {
 	/**
-	 * @Id
-	 * @Column(type="integer")
+	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
@@ -37,7 +34,7 @@ class User {
 	 * Set username
 	 *
 	 * @param string $username
-	 * @return User
+	 * @return
 	 */
 	public function setUsername($username)
 	{
@@ -59,7 +56,7 @@ class User {
 	 * Set password
 	 *
 	 * @param string $password
-	 * @return User
+	 * @return mUser
 	 */
 	public function setPassword($password)
 	{

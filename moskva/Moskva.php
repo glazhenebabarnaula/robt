@@ -73,7 +73,12 @@ class Moskva {
 
 		$this->initDb();
 
-		$this->user = new mWebUser(array('em' => $this->getEntityManager()));
+		$this->user = new mWebUser(
+								array_merge(
+									$this->loadConfig('user'),
+									array('em' => $this->getEntityManager())
+								)
+					);
 
 		$this->isInitialized = true;
 

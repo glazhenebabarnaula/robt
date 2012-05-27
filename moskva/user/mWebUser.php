@@ -7,16 +7,18 @@ class mWebUser extends mComponent {
 	 * @var \Doctrine\ORM\EntityManager
 	 */
 	protected $em = null;
-	protected $requiredOptions = array('em');
+	protected $requiredOptions = array('em', 'userClass');
 
 	protected $model = null;
+	protected $userClass = null;
 
 	protected function init() {
 		session_start();
 		if (isset($_SESSION[self::sessionIdKeyName])) {
 			$this->id = $_SESSION[self::sessionIdKeyName];
-			$this->model = $this->em->getRepository('\Moskva\User\Model\User')->find($this->id);
+			$this->model = $this->em->getRepository('User')->find($this->id);
 		}
+
 	}
 
 	protected function login($id) {
@@ -33,7 +35,7 @@ class mWebUser extends mComponent {
 	}
 
 	/**
-	 * @return \Moskva\User\Model\User
+	 * @return User
 	 */
 	public function getModel() {
 		return $this->model;
@@ -41,9 +43,9 @@ class mWebUser extends mComponent {
 
 	public function authenticate($username, $password) {
 		/**
-		 * @var $user \Moskva\User\Model\User
+		 * @var $user mUser
 		 */
-		$user = $this->em->getRepository('\Moskva\User\Model\User')->findOneBy(array('username' => $username, 'password' => $password));
+		$user = $this->em->getRepository($this->userClass)->findOneBy(array('username' => $username, 'password' => $password));
 
 		if ($user === null) {
 			return false;
