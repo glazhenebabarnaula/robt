@@ -15,6 +15,7 @@ class Autoloader{
 	}
 
 	private $moskvaDir;
+	private $foundClasses = array();
 	private function __construct() {
 		$this->moskvaDir = dirname(dirname(__FILE__));
 	}
@@ -72,10 +73,25 @@ class Autoloader{
 		$this->importDir($appDir . '/models');
 	}
 
-	public function importDir($dir){
+	public function importDir($dir, $force = false){
 
 		foreach(glob("{$dir}/*.php") as $file){
-			require_once $file;
+			if ($force) {
+				require_once $file;
+			} else {
+				$pathInfo=pathinfo($file);
+				$class=$pathInfo['filename'];
+				$this->foundClasses[$class] = $file;
+			}
 		}
+	}
+
+	public function tryLoadClass($class) {
+		if (isset($this->foundClasses[$class])) {
+			require_once $this->foundClasses[$class];
+			return true;
+		}
+
+		return false;
 	}
 }

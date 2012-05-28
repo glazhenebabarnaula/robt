@@ -43,6 +43,7 @@ class Moskva {
 	private function __construct($dir) {
 		set_error_handler(array($this, 'handleError'));
 		set_exception_handler(array($this, 'handleException'));
+		spl_autoload_register(array(Autoloader::getInstance(), 'tryLoadClass'));
 		spl_autoload_register(array($this, 'handleClassNotFound'));
 		error_reporting(E_ALL);
 
