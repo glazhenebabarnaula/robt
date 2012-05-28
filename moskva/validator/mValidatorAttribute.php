@@ -6,6 +6,8 @@ abstract class mValidatorAttribute extends mValidator {
 	protected $message_required = 'Необходимо заполнить поле';
 	protected $required = true;
 
+	protected $message;
+
 	public function __construct($config = array()) {
 		parent::__construct($config);
 	}

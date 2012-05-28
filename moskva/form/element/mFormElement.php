@@ -4,10 +4,6 @@ abstract class mFormElement extends mComponent {
 	protected $value;
 	protected $errors = array();
 
-	public function __construct($config = array()) {
-		$this->initProperties($config);
-	}
-
 	abstract public function render($attributes = array());
 
 	public function setName($name)

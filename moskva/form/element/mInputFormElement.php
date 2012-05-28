@@ -8,7 +8,7 @@ abstract class mInputFormElement extends mFormElement {
 	public function render($attributes = array())
 	{
 		$this->renderLabel();
-		$this->renderInput($attributes);
+		echo $this->renderInput($attributes);
 		if (count($this->errors) > 0) {
 			$this->renderErrors();
 		}
@@ -44,7 +44,7 @@ abstract class mInputFormElement extends mFormElement {
 			$result .= ">$content</$tag>";
 		}
 
-		echo $result;
+		return $result;
 	}
 
 
@@ -57,7 +57,7 @@ abstract class mInputFormElement extends mFormElement {
 	}
 
 	protected function renderError($errorMsg) {
-		echo '<span class="error"> ' . $errorMsg. '</span>';
+		echo $this->renderTag('span', $errorMsg, array('class' => 'error'));
 	}
 
 	public abstract function renderInput($attributes = array());

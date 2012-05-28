@@ -1,8 +1,21 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: sufix
- * Date: 28.05.12
- * Time: 17:13
- * To change this template use File | Settings | File Templates.
- */
+class mSelectChoiceInputFormElement extends mChoiceInputFormElement {
+	public function renderInput($attributes = array())
+	{
+		$options = array();
+
+		foreach ($this->getChoices() as $key => $label) {
+			$optionAttributes = array('value' => $key);
+
+			if ($this->isChosen($key)) {
+				$optionAttributes['selected'] = 'selected';
+			}
+
+			$options[] = $this->renderTag('option', $label, $optionAttributes);
+		}
+
+		$optionsImploded = implode('', $options);
+
+		return $this->renderTag('select', $optionsImploded, array_merge($attributes, array('name' => $this->name)));
+	}
+}

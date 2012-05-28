@@ -1,8 +1,20 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: sufix
- * Date: 28.05.12
- * Time: 17:01
- * To change this template use File | Settings | File Templates.
- */
+abstract class mChoiceInputFormElement extends mInputFormElement {
+	protected $requiredOptions = array('choices');
+
+	protected $choices;
+
+	public function setChoices($choices)
+	{
+		$this->choices = $choices;
+	}
+
+	public function getChoices()
+	{
+		return $this->choices;
+	}
+
+	public function isChosen($option) {
+		return $this->value == $option;
+	}
+}
