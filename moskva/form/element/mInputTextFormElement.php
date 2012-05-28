@@ -1,7 +1,7 @@
 <?php
 class mInputTextFormElement extends mInputFormElement {
-	public function renderInput($name, $value = null, $attributes = array())
+	public function renderInput($attributes = array())
 	{
-		$this->renderInputTag($name, $value, 'text', $attributes);
+		$this->renderInputTag($this->getName(), $this->getValue(), 'text', $attributes);
 	}
 }

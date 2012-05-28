@@ -5,12 +5,12 @@ abstract class mInputFormElement extends mFormElement {
 	protected $attributes = array();
 	protected $label;
 
-	public function render($name, $value = null, $attributes = array(), $errors = array())
+	public function render($attributes = array())
 	{
 		$this->renderLabel();
-		$this->renderInput($name, $value, $attributes);
-		if (count($errors) > 0) {
-			$this->renderErrors($errors);
+		$this->renderInput($attributes);
+		if (count($this->errors) > 0) {
+			$this->renderErrors();
 		}
 	}
 
@@ -19,8 +19,8 @@ abstract class mInputFormElement extends mFormElement {
 	}
 
 
-	public function renderErrors($errors) {
-		foreach ($errors as $error) {
+	public function renderErrors() {
+		foreach ($this->getErrors() as $error) {
 			$this->renderError($error);
 		}
 	}
@@ -60,5 +60,5 @@ abstract class mInputFormElement extends mFormElement {
 		echo '<span class="error"> ' . $errorMsg. '</span>';
 	}
 
-	public abstract function renderInput($name, $value = null, $attributes = array());
+	public abstract function renderInput($attributes = array());
 }

@@ -24,7 +24,7 @@ abstract class mForm extends mComponent implements ArrayAccess {
 
 	public function render() {
 		foreach ($this->elements as $name => $element) {
-			$element->render($this->getElementName($name), $this->getValue($name), array(), $this->getErrors($name));
+			$element->render(array());
 			echo "<br/>";
 		}
 	}
@@ -36,6 +36,7 @@ abstract class mForm extends mComponent implements ArrayAccess {
 			if (!isset($this->errors[$k])) {
 				$this->errors[$k] = array();
 			}
+			$this->elements[$k]->addError($message);
 			$this->errors[$k][] = $message;
 		}
 	}
@@ -75,6 +76,10 @@ abstract class mForm extends mComponent implements ArrayAccess {
 	public function validate() {
 		$values = $this->values;
 
+		foreach ($this->elements as $e) {
+			$e->clearErrors();
+		}
+
 		foreach ($this->validators as $k => $validator) {
 			try {
 				$values = $validator->cleanValues($values);
@@ -97,6 +102,7 @@ abstract class mForm extends mComponent implements ArrayAccess {
 	public function setValue($k, $v) {
 		if (isset($this->elements[$k])) {
 			$this->values[$k] = $v;
+			$this->elements[$k]->setValue($v);
 		} else {
 			throw new MoskvaException('there is now element with name' . $k . 'in ' . get_class($this));
 		}
@@ -110,6 +116,7 @@ abstract class mForm extends mComponent implements ArrayAccess {
 
 	public function setElement($name, mFormElement $element) {
 		$this->elements[$name] = $element;
+		$element->setName($this->getElementName($name));
 	}
 
 	public function getElement($name) {
