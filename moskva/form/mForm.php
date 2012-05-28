@@ -100,7 +100,7 @@ abstract class mForm extends mComponent implements ArrayAccess {
 	}
 
 	public function setValue($k, $v) {
-		if (isset($this->elements[$k])) {
+		if (isset($this->elements[$k]) && isset($this->validators[$k])) {
 			$this->values[$k] = $v;
 			$this->elements[$k]->setValue($v);
 		} else {
