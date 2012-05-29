@@ -40,13 +40,18 @@ class Moskva {
 	 */
 	protected $user = null;
 
+	/**
+	 * @var BaseController
+	 */
+	private $controller = null;
+
 	private function __construct($dir) {
 		set_error_handler(array($this, 'handleError'));
 		set_exception_handler(array($this, 'handleException'));
 		spl_autoload_register(array(Autoloader::getInstance(), 'tryLoadClass'));
 		spl_autoload_register(array($this, 'handleClassNotFound'));
 		error_reporting(E_ALL);
-
+		ini_set('display_errors', true);
 		$this->appDir = $dir;
 
 	}
@@ -98,6 +103,11 @@ class Moskva {
 	}
 
 	public function handleException(Exception $e) {
+		if ($e instanceof MoskvaHttpException) {
+			header('HTTP/1.0 ' .$e->getHttpCode() . '');
+			die();
+		}
+
 		$this->handleErrorException($e);
 		return true;
 	}
@@ -111,7 +121,7 @@ class Moskva {
 	}
 
 	private  function handleErrorException(Exception $exception) {
-		print "Exception: " . $exception;
+		print "Exception: " . $exception->getMessage();
 		echo '<br/>';
 		echo '<pre>';
 		debug_print_backtrace();
@@ -130,6 +140,10 @@ class Moskva {
 
         return $file;
     }
+
+	public function getMoskvaViewsPath() {
+		return Autoloader::getInstance()->getMoskvaDir() . '/views';
+	}
 
     private function getArgumentsOfAction($controllerName, $actionName){
         $r = new ReflectionMethod($controllerName, $actionName);
@@ -161,7 +175,9 @@ class Moskva {
 
         if(class_exists($controller)){
             $instance = new $controller();
+			$this->controller = $instance;
             if(method_exists($instance, $action)){
+
                 $args = $this->getArgumentsOfAction($controller,$action);
                 $instance->$action($args);
                 exit();
@@ -196,5 +212,13 @@ class Moskva {
 	public function getUser()
 	{
 		return $this->user;
+	}
+
+	/**
+	 * @return \BaseController
+	 */
+	public function getController()
+	{
+		return $this->controller;
 	}
 }

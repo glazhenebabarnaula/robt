@@ -33,26 +33,52 @@ class Template{
         $this->parentLayout = $parentName;
     }
 
+	private function renderFile($fileName, $vars = array()) {
+		foreach($vars as $key => $value){
+			$$key = $value;
+		}
+
+		$fullFileName = $this->viewsDir . '/' . $fileName . '.php';
+
+		if (!file_exists($fullFileName)) {
+			throw new MoskvaNotFoundViewException($fullFileName);
+		}
+
+		ob_start();
+		include $fullFileName;
+		$content = ob_get_clean();
+
+		return $content;
+	}
+
     public function render(){
-        ob_start();
-        foreach($this->variables as $key => $value){
-            $$key = $value;
-        }
         if(!is_null($this->controller)){
-            include $this->viewsDir . $this->controller . '/' . $this-> templateName . '.php';
+            $content = $this->renderFile($this->controller . '/' . $this-> templateName, $this->variables);
         }
         else{
-            include $this->viewsDir . 'layouts/' . $this->templateName . '.php';
+            $content = $this->renderFile('layouts/' . $this->templateName, $this->variables);
         }
-        $content = ob_get_clean();
+
         if(isset($this->parentLayout)){
-            $parent = new Template($this->parentLayout, array('content'=>$content), $this->viewsDir);
+			if (!($this->parentLayout instanceof Template)) {
+            	$parent = new Template($this->parentLayout, array(), $this->viewsDir);
+			} else {
+				$parent = $this->parentLayout;
+			}
+			/**
+			 * @var $parent Template
+			 */
+			$parent->setVariable('content', $content);
             return $parent->render();
         }
+
         return $content;
     }
 
-    private function renderPartial($controller, $name){
-        include $this->viewsDir . $controller . '/' . $name . '.php';
+    public function renderPartial($name, $vars = array(), $controller = null){
+		if ($controller === null) {
+			$controller = $this->controller;
+		}
+        echo $this->renderFile($controller . '/' . $name, $vars);
     }
 }
