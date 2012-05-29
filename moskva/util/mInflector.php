@@ -33,4 +33,8 @@ class mInflector
 	{
 		return lcfirst(self::classify($word));
 	}
+
+	public static function getterMethod($word) {
+		return 'get' . self::classify($word);
+	}
 }
