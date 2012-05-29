@@ -99,4 +99,11 @@ class Test {
     {
         return $this->charge_type_id;
     }
+
+	public function getFk() {
+		if ($this->getChargeType() === null) {
+			return 'Не выбрано';
+		}
+		return $this->getChargeType()->getName();
+	}
 }
