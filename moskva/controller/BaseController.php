@@ -1,5 +1,10 @@
 <?php
 class BaseController{
+	/**
+	 * @var TemplateCollection
+	 */
+	private $templateCollection = null;
+
     public function before(){}
     public function after(){}
 
@@ -16,13 +21,30 @@ class BaseController{
 		return $this->cutSuffix(get_class($this),'Controller');
 	}
 
-    protected function renderView($action,$variables){
-        $controller = $this->getControllerName();
-        $action = $this->cutSuffix($action,'Action');
-        $viewsDir = Moskva::getInstance()->getViewsPath();
-        $template = new Template($action, $variables, $viewsDir, $controller);
-        echo $template->render();
+
+	protected function getTemplateCollection() {
+		if ($this->templateCollection === null) {
+			$this->templateCollection = $this->buildTemplateCollection();
+		}
+
+		return $this->templateCollection;
+	}
+
+	protected function buildTemplateCollection() {
+		$controller = $this->getControllerName();
+		$viewsDir = Moskva::getInstance()->getViewsPath();
+		$template = new TemplateCollection($viewsDir, $controller);
+
+		return $template;
+	}
+
+    public function renderView($template,$variables){
+        $this->getTemplateCollection()->render($template, $variables);
     }
+
+	public function renderPartial($template, $vars) {
+		$this->getTemplateCollection()->renderPartial($template, $vars);
+	}
 
 	protected function isPostRequest() {
 		return $_SERVER['REQUEST_METHOD'] === 'POST';

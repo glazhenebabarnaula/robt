@@ -1,21 +1,15 @@
 <?php
 abstract class CrudController extends BaseController {
-	private function renderDefaultView($view, $vars) {
-		$template = new Template($view, $vars, Moskva::getInstance()->getMoskvaViewsPath(), 'crud');
-		$layoutTemplate = new Template($this->getLayoutName(), array(), Moskva::getInstance()->getViewsPath());
-
-		$template->setParentLayout($layoutTemplate);
-
-		echo $template->render();
-
+	protected function buildDefaultTemplateCollection() {
+		return new TemplateCollection(Moskva::getInstance()->getInstance()->getMoskvaViewsPath(), 'crud');
 	}
 
-	protected function renderCustomThenDefault($view, $vars) {
-		try {
-			$this->renderView($view, $vars);
-		} catch (MoskvaNotFoundViewException $e) {
-			$this->renderDefaultView($view, $vars);
-		}
+	protected function buildTemplateCollection() {
+		$templateCollection = parent::buildTemplateCollection();
+		$templateCollection->setNextResponsibleTemplatesCollection($this->buildDefaultTemplateCollection());
+		$templateCollection->setParentLayout($this->getLayoutName());
+
+		return $templateCollection;
 	}
 
 	protected function getModelClassName() {
@@ -55,7 +49,7 @@ abstract class CrudController extends BaseController {
 
 	public function indexAction() {
 		$data = $this->loadEntities();
-		$this->renderCustomThenDefault('index', array('data' => $data, 'fields' => $this->getGridColumns()));
+		$this->renderView('index', array('data' => $data, 'fields' => $this->getGridColumns()));
 	}
 
 	protected function deleteEntity($id) {
@@ -84,7 +78,7 @@ abstract class CrudController extends BaseController {
 
 		$form = $this->processEntityFormRequest($entity);
 
-		$this->renderCustomThenDefault('update', array('form' => $form, 'entity' => $entity));
+		$this->renderView('update', array('form' => $form, 'entity' => $entity));
 	}
 
 	public function createAction() {
@@ -92,7 +86,7 @@ abstract class CrudController extends BaseController {
 
 		$form = $this->processEntityFormRequest($entity);
 
-		$this->renderCustomThenDefault('update', array('form' => $form, 'entity' => $entity));
+		$this->renderView('update', array('form' => $form, 'entity' => $entity));
 	}
 
 	public function deleteAction($id) {

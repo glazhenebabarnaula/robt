@@ -9,7 +9,7 @@ class MainPageController extends BaseController{
 		$tests = Moskva::getInstance()->getEntityManager()->getRepository('Test')->findAll();
 
 		print_r($tests);
-        echo $this->renderView(__FUNCTION__,array('indexMethodVar'=>'<p>Moskva slezam ne verit'));
+        echo $this->renderView('index',array('indexMethodVar'=>'<p>Moskva slezam ne verit'));
 	}
 
 	public function loginAction() {

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var $form mModelForm
- * @var $this Template
+ * @var $this TemplateCollection
  */
 ?>
 <form method="POST">

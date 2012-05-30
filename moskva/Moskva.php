@@ -122,10 +122,11 @@ class Moskva {
 
 	private  function handleErrorException(Exception $exception) {
 		print "Exception: " . $exception->getMessage();
-		echo '<br/>';
+		echo '<div style="width: 500px;"><br/>';
 		echo '<pre>';
+		//array_walk( debug_backtrace(), create_function( '$a,$b', 'print "<br /><b>". basename( $a[\'file\'] ). "</b> &nbsp; <font color=\"red\">{$a[\'line\']}</font> &nbsp; <font color=\"green\">{$a[\'function\']} ()</font> &nbsp; -- ". dirname( $a[\'file\'] ). "/";' ) );
 		debug_print_backtrace();
-		echo '</pre>';
+		echo '</pre></div>';
 		exit(1);
 	}
 
@@ -136,7 +137,7 @@ class Moskva {
 	}
 
     public function getViewsPath() {
-        $file = $this->appDir . '/views/';
+        $file = $this->getAppDir() . '/views';
 
         return $file;
     }
