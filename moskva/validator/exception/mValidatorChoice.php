@@ -6,14 +6,17 @@ class mValidatorChoice extends mValidatorAttribute {
 
 	protected function cleanValue($value)
 	{
+		if (empty($value)) {
+			return null;
+		}
+		$choices = $this->getChoices();
+		$key = array_search($value, $choices);
 
-		$value = array_search($value, $this->getChoices());
-
-		if ($value === false) {
+		if ($key === false) {
 			throw new mValidationException($this->message);
 		}
 
-		return $value;
+		return $choices[$key];
 	}
 
 	public function setChoices($choices)

@@ -88,6 +88,8 @@ abstract class mForm extends mComponent implements ArrayAccess {
 			}
 		}
 
+		$this->values = $values;
+
 		return !$this->hasErrors();
 	}
 

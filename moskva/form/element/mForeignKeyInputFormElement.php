@@ -5,6 +5,7 @@ class mForeignKeyInputFormElement extends mInputFormElement {
 
 	protected $modelName;
 	protected $columns;
+	protected $hasEmptyChoice = false;
 	/**
 	 * @var mChoiceInputFormElement
 	 */
@@ -39,7 +40,7 @@ class mForeignKeyInputFormElement extends mInputFormElement {
 		}
 
 		if ($this->widget === null) {
-			$this->widget = new mSelectChoiceInputFormElement(array('choices' => $this->getChoices()));
+			$this->widget = new mSelectChoiceInputFormElement(array('choices' => $this->getChoices(), 'hasEmptyChoice' => $this->hasEmptyChoice));
 		}
 
 	}

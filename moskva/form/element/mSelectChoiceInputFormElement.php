@@ -4,7 +4,17 @@ class mSelectChoiceInputFormElement extends mChoiceInputFormElement {
 	{
 		$options = array();
 
-		foreach ($this->getChoices() as $key => $label) {
+		$choices = array();
+
+		if ($this->hasEmptyChoice) {
+			$choices['']= '';
+		}
+
+		foreach ($this->getChoices() as $k => $v) {
+			$choices[$k] = $v;
+		}
+
+		foreach ($choices as $key => $label) {
 			$optionAttributes = array('value' => $key);
 
 			if ($this->isChosen($key)) {
