@@ -51,8 +51,8 @@ class TemplateCollection{
 				throw new MoskvaNotFoundViewException($fullFileName);
 			}
 		} else {
-			$template = new Template($this->rootCollection);
-			$content = $template->render($fullFileName, $vars);
+			$template = new Template($this->rootCollection, $fullFileName);
+			$content = $template->render($vars);
 		}
 
 		if (!$collectResult) {
