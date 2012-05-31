@@ -12,6 +12,10 @@ class Template extends mComponent {
 		$this->collection->renderPartial($templateName, $vars, $subDirArg, $collectResult);
 	}
 
+	public function setParentLayout($parent) {
+		$this->collection->setParentLayout($parent);
+	}
+
 	public function render($vars) {
 		foreach($vars as $key => $value){
 			$$key = $value;
@@ -21,5 +25,10 @@ class Template extends mComponent {
 		$content = ob_get_clean();
 
 		return $content;
+	}
+
+	public function createUrl() {
+		$args = func_get_args();
+		call_user_func_array(array(Moskva::getInstance()->getController(), 'createUrl'), $args);
 	}
 }

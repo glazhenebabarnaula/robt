@@ -14,8 +14,8 @@ class Router{
         $action = $this->getFromConfigIfNotExists($matches,'action','default_action');
 
         return array(
-            'controller' => $controller . 'Controller',
-            'action' => $action . 'Action'
+            'controller' => $controller,
+            'action' => $action
         );
     }
 

@@ -54,6 +54,7 @@ class Moskva {
 		ini_set('display_errors', true);
 		$this->appDir = $dir;
 
+		//$this->init();
 	}
 
 	public function isDebug() {
@@ -69,7 +70,7 @@ class Moskva {
 		$this->entityManager = $doctrineConfigurator->createEntityManager($this->db, $this->appDir);
 	}
 
-	protected function init() {
+	public function init() {
 		if ($this->isInitialized) {
 			return false;
 		}
@@ -174,17 +175,32 @@ class Moskva {
         $controller = $routeArray['controller'];
         $action = $routeArray['action'];
 
-        if(class_exists($controller)){
-            $instance = new $controller();
-			$this->controller = $instance;
-            if(method_exists($instance, $action)){
+		$controllerClassName = $controller . 'Controller';
+		$actionMethodName = $action . 'Action';
 
-                $args = $this->getArgumentsOfAction($controller,$action);
-                $instance->$action($args);
+        if(class_exists($controllerClassName)){
+			/**
+			 * @var $instance BaseController
+			 */
+
+            $instance = new $controllerClassName();
+			$this->controller = $instance;
+            if(method_exists($instance, $actionMethodName)){
+
+				if ($instance->isAuthenticatedOnly($action) && !$this->user->isAuthenticated()) {
+					$instance->redirect(array('Auth','login'));
+				}
+
+				if ($instance->isAdminOnly($action) && !$this->user->getModel()->hasAccess('admin')) {
+					throw new MoskvaHttpException(403);
+				}
+
+                $args = $this->getArgumentsOfAction($controllerClassName,$actionMethodName);
+                $instance->$actionMethodName($args);
                 exit();
             }
         }
-        $this->handleError('404','controller or action not found');
+        throw new MoskvaHttpException(404);
     }
 
 	public function handleDoctrineCommand() {

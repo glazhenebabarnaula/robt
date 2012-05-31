@@ -11,7 +11,7 @@ class User implements mUser {
 	protected $id;
 
 	/**
-	 * @Column(type="string", nullable=false)
+	 * @Column(type="string", nullable=false, unique=True)
 	 */
 	protected $username;
 
@@ -19,6 +19,11 @@ class User implements mUser {
 	 * @Column(type="string", nullable=false)
 	 */
 	protected $password;
+
+	/**
+	 * @Column(type="array", nullable=False)
+	 */
+	protected $permissions = array();
 
 	/**
 	 * Get id
@@ -73,4 +78,30 @@ class User implements mUser {
 	{
 		return $this->password;
 	}
+
+	public function hasAccess($name) {
+		return $this->getPermissions() && in_array($name, $this->getPermissions());
+	}
+
+    /**
+     * Set permissions
+     *
+     * @param array $permissions
+     * @return User
+     */
+    public function setPermissions($permissions)
+    {
+        $this->permissions = $permissions;
+        return $this;
+    }
+
+    /**
+     * Get permissions
+     *
+     * @return array 
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
 }

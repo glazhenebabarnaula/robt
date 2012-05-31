@@ -1,5 +1,16 @@
 <?php
 class TestController extends CrudController {
+	protected function getAdminOnlyActions()
+	{
+		return array('*');
+	}
+
+	protected function getAuthenticatedOnlyActions()
+	{
+		return array('*');
+	}
+
+
 	public function getGridColumns()
 	{
 		return array('value' => 'Значение',  'fk' => 'Внешний ключ - круто!');

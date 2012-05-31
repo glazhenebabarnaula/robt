@@ -5,6 +5,8 @@ class BaseController{
 	 */
 	private $templateCollection = null;
 
+	protected $layout = 'master';
+
     public function before(){}
     public function after(){}
 
@@ -34,6 +36,9 @@ class BaseController{
 		$controller = $this->getControllerName();
 		$viewsDir = Moskva::getInstance()->getViewsPath();
 		$template = new TemplateCollection($viewsDir, $controller);
+		$template->setNextResponsibleTemplatesCollection(new TemplateCollection(Moskva::getInstance()->getMoskvaViewsPath(), $controller));
+
+		$template->setParentLayout($this->layout);
 
 		return $template;
 	}
@@ -73,11 +78,41 @@ class BaseController{
 		return $url;
 	}
 
-	protected function redirect($url) {
+	public function redirect($url) {
 		if (is_array($url)) {
 			$url = call_user_func_array(array($this, 'createUrl'), $url);
 		}
 
 		header('Location: '. $url);
+	}
+
+	protected function getAdminOnlyActions() {
+		return array();
+	}
+
+	protected function getAuthenticatedOnlyActions() {
+		return array();
+	}
+
+	private function isActionInSet($action, $set) {
+		if (!is_array($set)) {
+			$set = array($set);
+		}
+
+		foreach ($set as $element) {
+			if ($element === '*' || $element === $action) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public function isAuthenticatedOnly($action) {
+		return $this->isActionInSet($action, $this->getAuthenticatedOnlyActions());
+	}
+
+	public function isAdminOnly($action) {
+		return $this->isActionInSet($action, $this->getAdminOnlyActions());
 	}
 }

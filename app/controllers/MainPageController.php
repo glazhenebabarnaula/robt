@@ -1,14 +1,6 @@
 <?php
 class MainPageController extends BaseController{
     public function indexAction(){
-		$test = new Test();
-		$test->setValue("test");
-		Moskva::getInstance()->getEntityManager()->persist($test);
-		Moskva::getInstance()->getEntityManager()->flush();
-
-		$tests = Moskva::getInstance()->getEntityManager()->getRepository('Test')->findAll();
-
-		print_r($tests);
         echo $this->renderView('index',array('indexMethodVar'=>'<p>Moskva slezam ne verit'));
 	}
 
@@ -47,5 +39,15 @@ class MainPageController extends BaseController{
 				$form->render() ;
 		echo "		<input type='submit'/>
 			</form></body></html>";
+	}
+
+	protected function getAuthenticatedOnlyActions()
+	{
+		return array('*');
+	}
+
+	protected function getAdminOnlyActions()
+	{
+		return array('*');
 	}
 }

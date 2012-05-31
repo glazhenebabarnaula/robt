@@ -12,7 +12,7 @@ class TemplateCollection{
 
     /*If controllerName is NULL, template will be evaluated as layout
      * */
-    public function __construct($viewsDir, $subDir){
+    public function __construct($viewsDir, $subDir = null){
         $this->subDir = $subDir;
         $this->viewsDir = $viewsDir;
 		$this->rootCollection = $this;
@@ -83,7 +83,10 @@ class TemplateCollection{
 	 */
 	public function setNextResponsibleTemplatesCollection($nextResponsibleTemplatesCollection)
 	{
-		$nextResponsibleTemplatesCollection->rootCollection = $this->rootCollection;
+		if ($nextResponsibleTemplatesCollection !== null) {
+			$nextResponsibleTemplatesCollection->setNextResponsibleTemplatesCollection($this->nextResponsibleTemplatesCollection);
+			$nextResponsibleTemplatesCollection->rootCollection = $this->rootCollection;
+		}
 		$this->nextResponsibleTemplatesCollection = $nextResponsibleTemplatesCollection;
 	}
 }

@@ -106,4 +106,14 @@ abstract class CrudController extends BaseController {
 	protected function getLayoutName() {
 		return 'master';
 	}
+
+	protected function getAuthenticatedOnlyActions()
+	{
+		return array('*');
+	}
+
+	protected function getAdminOnlyActions()
+	{
+		return array('*');
+	}
 }
