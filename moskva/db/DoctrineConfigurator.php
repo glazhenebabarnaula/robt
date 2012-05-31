@@ -17,6 +17,9 @@ class DoctrineConfigurator {
 		$config->setAutoGenerateProxyClasses(true);
 
 		$em = \Doctrine\ORM\EntityManager::create($connection, $config);
+		$em->getEventManager()->addEventSubscriber(
+			new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit('utf8', 'utf8_unicode_ci')
+		);
 
 		return $em;
 	}
