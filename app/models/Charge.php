@@ -2,6 +2,7 @@
 /**
  * @Entity
  * @Table(name="charges")
+ * @HasLifecycleCallbacks
  */
 class Charge {
 	/**
@@ -30,7 +31,13 @@ class Charge {
 	 */
 	protected $value;
 
-    /**
+	function __construct()
+	{
+		$this->time = new DateTime('now');
+	}
+
+
+	/**
      * Get id
      *
      * @return integer 
@@ -127,4 +134,24 @@ class Charge {
     {
         return $this->charge_type;
     }
+
+	private function getCurrentValue() {
+		$sum = 0;
+
+		foreach ($this->getContract()->getTariff()->getChargeTypesCosts() as $chargeTypeTariffication) {
+			/**
+			 * @var ChargeTypeTariffication $chargeTypeTariffication
+			 */
+			if ($chargeTypeTariffication->getChargeType()->getId() === $this->getChargeType()->getId()) {
+				$sum += $chargeTypeTariffication->getValue();
+			}
+		}
+
+		return $sum;
+	}
+
+	public function calculateValue() {
+		$this->setValue($this->getCurrentValue());
+		return $this->getValue();
+	}
 }

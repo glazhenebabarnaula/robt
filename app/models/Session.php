@@ -2,6 +2,7 @@
 /**
  * @Entity
  * @Table(name="sessions")
+ * @HasLifecycleCallbacks
  */
 class Session {
 	/**
@@ -40,6 +41,10 @@ class Session {
 	 * @Column(type="decimal", nullable=false)
 	 */
 	protected $cost = 0;
+
+	public function __construct() {
+		$this->setBegin(new DateTime('now'));
+	}
 
     /**
      * Get id
@@ -176,10 +181,55 @@ class Session {
     /**
      * Get traffic_class
      *
-     * @return TrafficClass 
+     * @return TrafficClass
      */
     public function getTrafficClass()
     {
         return $this->traffic_class;
     }
+
+	private function getTariff() {
+		return $this->getContract()->getTariff();
+	}
+
+	/**
+	 * @return TrafficClassTariffication
+	 */
+	public function getTrafficClassTarification() {
+		$traffic_class_id = $this->getTrafficClass()->getId();
+		return $this->getTariff()->getTrafficClassesCosts()->filter(
+			function(TrafficClassTariffication $obj) use ($traffic_class_id) {
+				return $obj->getTrafficClass()->getId() === $traffic_class_id;
+			}
+		)->first();
+	}
+
+	private function getSessionTrafficCost() {
+		$tariffication = $this->getTrafficClassTarification();
+		return $tariffication->getMegabyteCost() * $this->getTrafficAmount();
+	}
+
+	private function getSessionLengthCost() {
+		$tariffication = $this->getTrafficClassTarification();
+		$begin = $this->getBegin();
+		$end = $this->getEnd();
+
+		if (empty($end)) {
+			$end = new DateTime('now');
+		}
+
+		$diff = $end->diff($begin);
+
+		return $diff->m * $tariffication->getMinuteCost();
+	}
+
+	private function getSessionTotalCost() {
+		return $this->getSessionTrafficCost() + $this->getSessionTrafficCost();
+	}
+
+
+	public function calculateCost() {
+		$this->setCost($this->getSessionTotalCost());
+		return $this->getCost();
+	}
 }

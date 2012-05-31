@@ -11,43 +11,25 @@ class TrafficClassTariffication {
 	protected $id;
 	/**
 	 * @ManyToOne(targetEntity="TrafficClass", inversedBy="tarifications")
-	 * @JoinColumn(name="contract_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="traffic_class_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $traffic_class;
 
 	/**
 	 * @ManyToOne(targetEntity="Tariff", inversedBy="traffic_classes_costs")
-	 * @JoinColumn(name="contract_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="tariff_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $tariff;
 
 	/**
 	 * @Column(type="decimal", nullable=false)
 	 */
-	protected $value;
+	protected $minute_cost;
 
-
-    /**
-     * Set value
-     *
-     * @param float $value
-     * @return TrafficClassTariffication
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-        return $this;
-    }
-
-    /**
-     * Get value
-     *
-     * @return float 
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
+	/**
+	 * @Column(type="decimal", nullable=false)
+	 */
+	protected $megabyte_cost;
 
     /**
      * Set traffic_class
@@ -101,5 +83,49 @@ class TrafficClassTariffication {
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set minute_cost
+     *
+     * @param float $minuteCost
+     * @return TrafficClassTariffication
+     */
+    public function setMinuteCost($minuteCost)
+    {
+        $this->minute_cost = $minuteCost;
+        return $this;
+    }
+
+    /**
+     * Get minute_cost
+     *
+     * @return float 
+     */
+    public function getMinuteCost()
+    {
+        return $this->minute_cost;
+    }
+
+    /**
+     * Set megabyte_cost
+     *
+     * @param float $megabyteCost
+     * @return TrafficClassTariffication
+     */
+    public function setMegabyteCost($megabyteCost)
+    {
+        $this->megabyte_cost = $megabyteCost;
+        return $this;
+    }
+
+    /**
+     * Get megabyte_cost
+     *
+     * @return float 
+     */
+    public function getMegabyteCost()
+    {
+        return $this->megabyte_cost;
     }
 }

@@ -54,7 +54,13 @@ class Contract {
 	/**
 	 * @OneToMany(targetEntity="Session", mappedBy="contract")
 	 */
-	protected $session;
+	protected $sessions;
+
+	/**
+	 * @ManyToOne(targetEntity="Tariff")
+	 * @JoinColumn(name="tariff_id", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $tariff;
 
     /**
      * Get id
@@ -247,26 +253,66 @@ class Contract {
     {
         return $this->charges;
     }
+	private function checkNotLessThenZero($value) {
+		if ($value < 0) {
+			throw new Exception('value should be >= 0');
+		}
+		return true;
+	}
+
+	public function increaseBalance($value) {
+		$this->checkNotLessThenZero($value);
+
+		$this->setBalance($this->getBalance() + $value);
+	}
+
+	public function decreaseBalance($value) {
+		$this->checkNotLessThenZero($value);
+
+		$this->setBalance($this->getBalance() - $value);
+	}
 
     /**
-     * Add session
+     * Get sessions
      *
-     * @param Session $session
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getSessions()
+    {
+        return $this->sessions;
+    }
+
+    /**
+     * Set tariff
+     *
+     * @param Tariff $tariff
      * @return Contract
      */
-    public function addSession(\Session $session)
+    public function setTariff(\Tariff $tariff = null)
     {
-        $this->session[] = $session;
+        $this->tariff = $tariff;
         return $this;
     }
 
     /**
-     * Get session
+     * Get tariff
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Tariff 
      */
-    public function getSession()
+    public function getTariff()
     {
-        return $this->session;
+        return $this->tariff;
+    }
+
+    /**
+     * Add sessions
+     *
+     * @param Session $sessions
+     * @return Contract
+     */
+    public function addSession(\Session $sessions)
+    {
+        $this->sessions[] = $sessions;
+        return $this;
     }
 }
