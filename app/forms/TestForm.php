@@ -7,13 +7,14 @@ class TestForm extends mModelForm {
 
 		$this->setAttributeValidator('value', new mValidatorString(array('min_length' => 4)));
 
-		$this->setElement('charge_type_id', new mForeignKeyInputFormElement(array('modelName' => 'ChargeType', 'columns' => 'name', 'hasEmptyChoice' => true)));
+		$this->setElement('charge_type', new mForeignKeyInputFormElement(array('modelName' => 'ChargeType', 'columns' => 'name', 'hasEmptyChoice' => true)));
 
-		$this->setAttributeValidator('charge_type_id',
-			new mValidatorChoice(
+		$this->setAttributeValidator('charge_type',
+			new mValidatorForeignKey(
 				array(
 					'required' => false,
-					'choices' => array_keys($this->getElement('charge_type_id')->getChoices())
+					'choices' => array_keys($this->getElement('charge_type')->getChoices()),
+					'model' => 'ChargeType',
 				)
 			)
 		);

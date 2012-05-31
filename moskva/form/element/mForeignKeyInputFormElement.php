@@ -47,7 +47,8 @@ class mForeignKeyInputFormElement extends mInputFormElement {
 
 	public function renderInput($attributes = array())
 	{
-		$this->widget->setValue($this->getValue());
+		$id = $this->getValue() ? $this->getValue()->getId() : null;
+		$this->widget->setValue($id);
 		$this->widget->setName($this->getName());
 		return $this->widget->renderInput($attributes);
 	}
