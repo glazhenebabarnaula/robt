@@ -12,11 +12,11 @@ class Session {
 	protected $id;
 
 	/**
-	 * @Column(type="time", nullable=false)
+	 * @Column(type="datetime", nullable=false)
 	 */
 	protected $begin;
 	/**
-	 * @Column(type="time", nullable=true)
+	 * @Column(type="datetime", nullable=true)
 	 */
 	protected $end;
 

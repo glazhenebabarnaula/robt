@@ -11,7 +11,7 @@ class BillIncrease {
 	protected $id;
 
 	/**
-	 * @Column(type="time", nullable=false)
+	 * @Column(type="datetime", nullable=false)
 	 */
 	protected $time;
 

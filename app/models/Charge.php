@@ -22,7 +22,7 @@ class Charge {
 	 */
 	protected $charge_type;
 	/**
-	 * @Column(type="time", nullable=false)
+	 * @Column(type="datetime", nullable=false)
 	 */
 	protected $time;
 
