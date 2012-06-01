@@ -33,7 +33,7 @@ class Session {
 
 	/**
 	 * @ManyToOne(targetEntity="TrafficClass")
-	 * @JoinColumn(name="contract_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="traffic_class_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $traffic_class;
 
