@@ -22,7 +22,7 @@
 		<?php
 			$menu = array(
 				array('Тарифы', array('Tariff', 'index')),
-				array('Договора', array('Contract', 'index')),
+				array('Договоры', array('Contract', 'index')),
 				array('Пополнения', array('BillIncrease', 'index')),
 				array('Начисления', array('Charge', 'index')),
 				array('Сессии', array('Session', 'index')),

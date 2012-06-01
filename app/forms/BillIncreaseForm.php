@@ -2,7 +2,7 @@
 class BillIncreaseForm extends mModelForm{
     protected function configure()
     {
-        $this->setElement('time', new mInputTimeFormElement('Дата и время начисления'));
+        $this->setElement('time', new mInputTimeFormElement(array('label'=>'Дата и время начисления')));
         $this->setAttributeValidator('time', new mValidatorTime());
 
         $this->setElement('contract',

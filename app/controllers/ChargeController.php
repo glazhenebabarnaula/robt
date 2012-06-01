@@ -1,14 +1,15 @@
 <?php
-class BillIncreaseController extends CrudController{
+class ChargeController extends CrudController{
     public function getGridColumns()
     {
-        return array('time' => 'Время пополнения',
-                    'value'=>'Размер пополнения');
+        return
+            array('id'=>'Id',
+                  'value'=>'Размер');
     }
 
     protected function getEntityName()
     {
-        return 'Пополнения';
+        return 'Начисления';
     }
 
     private function redirectToContract($entity) {

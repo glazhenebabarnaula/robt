@@ -18,27 +18,14 @@ class SessionForm extends mModelForm{
         $this->setElement('cost', new mInputTextFormElement(array('label'=>'Стоимость')));
         $this->setAttributeValidator('cost', new mValidatorDecimal(array('min'=>0.0)));
 
-        $this->setElement('contract',
-            new mForeignKeyInputFormElement(
-                array('modelName' => 'Contract',
-                      'columns' => 'number',
-                      'hasEmptyChoice' => false,
-                      'label'=>'Договор')
-                ));
 
-        $this->setAttributeValidator('contract',
-            new mValidatorForeignKey(
-                array('required'=>true,
-                      'choices'=>array_keys($this->getElement('contract')->getChoices()),
-                      'model'=>'Contract')
-                ));
 
         $this->setElement('traffic_class',
             new mForeignKeyInputFormElement(
                 array('modelName' => 'TrafficClass',
                       'columns' => 'name',
                       'hasEmptyChoice' => false,
-                      'label'=>'Договор')
+                      'label'=>'Класс трафика')
                 ));
         $this->setAttributeValidator('traffic_class',
             new mValidatorForeignKey(

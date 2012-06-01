@@ -17,7 +17,7 @@ class ChargeTypeTarifficationForm extends mModelForm{
             ));
 
 
-        $this->setElement('value', new mInputTextFormElement(array('label'=>'Размер начисления тарифа')));
+        $this->setElement('value', new mInputTextFormElement(array('label'=>'Размер начисления')));
         $this->setAttributeValidator('value',
             new mValidatorDecimal(array('min'=>0.0)));
     }

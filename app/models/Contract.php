@@ -11,7 +11,7 @@ class Contract {
 	protected $id;
 
 	/**
-	 * @OneToOne(targetEntity="User")
+	 * @OneToOne(targetEntity="User",cascade={"persist"})
 	 * @JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $user;
@@ -65,7 +65,7 @@ class Contract {
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -87,7 +87,7 @@ class Contract {
     /**
      * Get first_name
      *
-     * @return string 
+     * @return string
      */
     public function getFirstName()
     {
@@ -109,7 +109,7 @@ class Contract {
     /**
      * Get second_name
      *
-     * @return string 
+     * @return string
      */
     public function getSecondName()
     {
@@ -131,7 +131,7 @@ class Contract {
     /**
      * Get number
      *
-     * @return string 
+     * @return string
      */
     public function getNumber()
     {
@@ -153,7 +153,7 @@ class Contract {
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -175,7 +175,7 @@ class Contract {
     /**
      * Get balance
      *
-     * @return float 
+     * @return float
      */
     public function getBalance()
     {
@@ -197,7 +197,7 @@ class Contract {
     /**
      * Get user
      *
-     * @return User 
+     * @return User
      */
     public function getUser()
     {
@@ -211,7 +211,7 @@ class Contract {
 
 		$this->user = new User();
     }
-    
+
     /**
      * Add bill_increases
      *
@@ -227,7 +227,7 @@ class Contract {
     /**
      * Get bill_increases
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getBillIncreases()
     {
@@ -249,7 +249,7 @@ class Contract {
     /**
      * Get charges
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getCharges()
     {
@@ -277,7 +277,7 @@ class Contract {
     /**
      * Get sessions
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getSessions()
     {
@@ -299,7 +299,7 @@ class Contract {
     /**
      * Get tariff
      *
-     * @return Tariff 
+     * @return Tariff
      */
     public function getTariff()
     {

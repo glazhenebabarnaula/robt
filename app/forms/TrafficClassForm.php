@@ -6,6 +6,6 @@ class TrafficClassForm extends mModelForm{
 
         $this->setElement('iptables_rule',
             new mInputTextFormElement(array('label'=>'Правило iptable')));
-        $this->setAttributeValidator('iptables_rule', new mValidatorString());
+        $this->setAttributeValidator('iptables_rule', new mValidatorString(array('required'=>false)));
     }
 }
