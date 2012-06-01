@@ -106,4 +106,8 @@ class ChargeType {
     {
         return $this->tariffs;
     }
+
+	public function __toString() {
+		return $this->getName();
+	}
 }

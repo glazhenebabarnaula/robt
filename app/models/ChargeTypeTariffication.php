@@ -84,10 +84,10 @@ class ChargeTypeTariffication {
     /**
      * Set tariff
      *
-     * @param Contract $tariff
+     * @param Tariff $tariff
      * @return ChargeTypeTariffication
      */
-    public function setTariff(\Contract $tariff = null)
+    public function setTariff(\Tariff $tariff = null)
     {
         $this->tariff = $tariff;
         return $this;
@@ -96,7 +96,7 @@ class ChargeTypeTariffication {
     /**
      * Get tariff
      *
-     * @return Contract 
+     * @return Tariff
      */
     public function getTariff()
     {

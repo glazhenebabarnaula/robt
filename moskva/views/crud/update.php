@@ -11,3 +11,5 @@
 <?php echo $this->renderPartial('_form', array('form' => $form)); ?>
 <input type="submit" value="Изменить">
 </form>
+
+<?php $this->renderPartial('_after_update_form', array('model' => $form->getModel()));
