@@ -46,7 +46,7 @@ class TemplateCollection{
 
 		if (!file_exists($fullFileName)) {
 			if ($this->nextResponsibleTemplatesCollection !== null) {
-				$content = $this->nextResponsibleTemplatesCollection->renderPartial($templateName, $vars, $subDirArg, true);
+				$content = $this->nextResponsibleTemplatesCollection->renderPartial($templateName, $vars,null, true);
 			} else {
 				throw new MoskvaNotFoundViewException($fullFileName);
 			}

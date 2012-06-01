@@ -61,6 +61,10 @@ abstract class CrudController extends BaseController {
 		$this->getEntityManager()->flush();
 	}
 
+	protected function afterFormSave($entity) {
+		$this->redirect(array('update', array('id' => $entity->getId())));
+	}
+
 	protected function processEntityFormRequest($entity) {
 		$form = $this->buildForm($entity);
 
@@ -70,7 +74,7 @@ abstract class CrudController extends BaseController {
 				$form->updateModel();
 				$this->getEntityManager()->persist($entity);
 				$this->getEntityManager()->flush();
-				$this->redirect(array('update', array('id' => $entity->getId())));
+				$this->afterFormSave($entity);
 			}
 		}
 
@@ -93,14 +97,21 @@ abstract class CrudController extends BaseController {
 		$this->renderView('create', array('form' => $form, 'entity' => $entity));
 	}
 
+	protected function afterDelete($entity) {
+		$this->redirect(array('index'));
+	}
+
 	public function deleteAction($id) {
 		if (!$this->isPostRequest()) {
-			throw new MoskvaHttpException(403, 'only POST');
+			//TODO: сделать POST
+			//throw new MoskvaHttpException(403, 'only POST');
 		}
+
+		$entity = $this->loadEntity($id);
 
 		$this->deleteEntity($id);
 
-		$this->redirect(array('index'));
+		$this->afterDelete($entity);
 	}
 
 	public function getGridColumns() {
