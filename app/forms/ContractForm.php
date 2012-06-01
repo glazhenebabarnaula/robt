@@ -14,7 +14,9 @@ class ContractForm extends mModelForm{
         $this->setAttributeValidator('date', new mValidatorDate());
 
         $this->setElement('balance', new mInputTextFormElement());
-        $this->setElement('balance', new mValidatorDecimal());
+        $this->setAttributeValidator('balance', new mValidatorDecimal());
+
+		$this->setSubForm('user', new UserForm($this->getModel()->getUser()));
     }
 
 }

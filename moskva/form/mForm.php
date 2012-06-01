@@ -14,6 +14,21 @@ abstract class mForm extends mComponent implements ArrayAccess {
 	private $values = array();
 	protected $formName;
 
+	/**
+	 * @var mForm[]
+	 */
+	protected $subForms = array();
+
+	public function setSubForm($k, mForm $form) {
+		$this->subForms[$k] = $form;
+		$this->subForms[$k]->setFormName($this->getElementName($k));
+		return $this;
+	}
+
+	public function getSubForm($k) {
+		return $this->subForms[$k];
+	}
+
 	public function __construct() {
 		$this->formName = get_class($this);
 
@@ -23,6 +38,10 @@ abstract class mForm extends mComponent implements ArrayAccess {
 	abstract protected function configure();
 
 	public function render() {
+		foreach ($this->subForms as $subForm) {
+			$subForm->render();
+		}
+
 		foreach ($this->elements as $name => $element) {
 			$element->render(array());
 			echo "<br/>";
@@ -88,9 +107,14 @@ abstract class mForm extends mComponent implements ArrayAccess {
 			}
 		}
 
+		$wasInvalidSubForm = false;
+		foreach ($this->subForms as $form) {
+			$wasInvalidSubForm |= !$form->validate();
+		}
+
 		$this->values = $values;
 
-		return !$this->hasErrors();
+		return !$this->hasErrors() && !$wasInvalidSubForm;
 	}
 
 	public function getElementName($elementName) {
@@ -105,6 +129,8 @@ abstract class mForm extends mComponent implements ArrayAccess {
 		if (isset($this->elements[$k]) && isset($this->validators[$k])) {
 			$this->values[$k] = $v;
 			$this->elements[$k]->setValue($v);
+		} elseif(isset($this->subForms[$k])) {
+			$this->getSubForm($k)->loadValues($v);
 		} else {
 			throw new MoskvaException('there is now element with name' . $k . 'in ' . get_class($this));
 		}
@@ -136,21 +162,34 @@ abstract class mForm extends mComponent implements ArrayAccess {
 
 	public function offsetExists($offset)
 	{
-		isset($this->elements[$offset]);
+		isset($this->elements[$offset]) || isset($this->subForms[$offset]);
 	}
 
 	public function offsetGet($offset)
 	{
-		return $this->offsetGet($offset);
+		return (isset($this->subForms[$offset]) ? $this->subForms[$offset] : $this->getElement($offset));
 	}
 
 	public function offsetSet($offset, $value)
 	{
-		$this->elements[$offset] = $value;
+		throw new MoskvaException("read only field");
 	}
 
 	public function offsetUnset($offset)
 	{
-		unset($this->elements[$offset]);
+		throw new MoskvaException("read only field");
+	}
+
+	public function setFormName($formName)
+	{
+		$this->formName = $formName;
+
+		foreach ($this->elements as $name => $element) {
+			$element->setName($this->getElementName($name));
+		}
+
+		foreach ($this->subForms as $name => $subForm) {
+			$subForm->setFormName($this->getElementName($name));
+		}
 	}
 }

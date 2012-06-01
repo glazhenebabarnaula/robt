@@ -2,9 +2,9 @@
 abstract class mModelForm extends mForm {
 	protected $model;
 	public function __construct($model, $config = array()) {
-		parent::__construct($config);
-
 		$this->model = $model;
+
+		parent::__construct($config);
 
 		$this->updateValuesFromModel();
 	}
@@ -29,6 +29,13 @@ abstract class mModelForm extends mForm {
 		if (!$this->validate()) {
 			return false;
 		}
+
+		foreach ($this->subForms as $form) {
+			if ($form instanceof mModelForm) {
+				$form->updateModel();
+			}
+		}
+
 		$values = $this->getValues();
 
 		foreach ($values as $k => $v) {
@@ -39,6 +46,11 @@ abstract class mModelForm extends mForm {
 	}
 
 	public function updateValuesFromModel() {
+		foreach ($this->subForms as $form) {
+			if ($form instanceof mModelForm) {
+				$form->updateValuesFromModel();
+			}
+		}
 		foreach (array_keys($this->elements) as $k) {
 			if (method_exists(get_class($this->model), $this->getterName($k))) {
 				$this->setValue($k, $this->model->{$this->getterName($k)}());

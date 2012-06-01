@@ -65,7 +65,7 @@ abstract class CrudController extends BaseController {
 			if ($form->validate()) {
 				$form->updateModel();
 				$this->getEntityManager()->persist($entity);
-				$this->getEntityManager()->flush($entity);
+				$this->getEntityManager()->flush();
 				$this->redirect(array('update', array('id' => $entity->getId())));
 			}
 		}

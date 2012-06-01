@@ -208,6 +208,8 @@ class Contract {
         $this->bill_increases = new \Doctrine\Common\Collections\ArrayCollection();
         $this->charges = new \Doctrine\Common\Collections\ArrayCollection();
         $this->session = new \Doctrine\Common\Collections\ArrayCollection();
+
+		$this->user = new User();
     }
     
     /**
