@@ -1,6 +1,10 @@
 <?php
 class mInputTimeFormElement extends mInputTextFormElement{
     public function getValue() {
-        return parent::getValue()->format('hh:mm');
+        $value = parent::getValue();
+        if(!($value instanceof DateTime)){
+            return '';
+        }
+        return $value->format('Y-m-d H:i');
     }
 }

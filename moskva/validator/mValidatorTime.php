@@ -1,4 +1,3 @@
 <?php
-class mValidatorTime
-{
+class mValidatorTime extends mValidatorDate{
 }

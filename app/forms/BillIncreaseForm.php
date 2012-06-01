@@ -1,4 +1,26 @@
 <?php
-class BillIncreaseForm
-{
+class BillIncreaseForm extends mModelForm{
+    protected function configure()
+    {
+        $this->setElement('time', new mInputTimeFormElement());
+        $this->setAttributeValidator('time', new mValidatorTime());
+
+        $this->setElement('contract',
+            new mForeignKeyInputFormElement(
+                array('modelName' => 'Contract',
+                    'columns' => 'number',
+                    'hasEmptyChoice' => false)
+            ));
+        $this->setAttributeValidator('contract',
+            new mValidatorForeignKey(
+                array('required'=>true,
+                    'choices'=>array_keys($this->getElement('contract')->getChoices()),
+                    'model'=>'Contract')
+            ));
+
+        $this->setElement('value', new mInputTextFormElement());
+        $this->setAttributeValidator('value',
+            new mValidatorDecimal(array('min'=>0.0)));
+    }
+
 }
