@@ -6,7 +6,8 @@ class ChargeTypeTarifficationForm extends mModelForm{
             new mForeignKeyInputFormElement(
                 array('modelName' => 'ChargeType',
                     'columns' => 'name',
-                    'hasEmptyChoice' => false)
+                    'hasEmptyChoice' => false,
+                    'label'=>'Тип начисления')
             ));
         $this->setAttributeValidator('charge_type',
             new mValidatorForeignKey(
@@ -16,7 +17,7 @@ class ChargeTypeTarifficationForm extends mModelForm{
             ));
 
 
-        $this->setElement('value', new mInputTextFormElement());
+        $this->setElement('value', new mInputTextFormElement(array('label'=>'Размер начисления тарифа')));
         $this->setAttributeValidator('value',
             new mValidatorDecimal(array('min'=>0.0)));
     }
