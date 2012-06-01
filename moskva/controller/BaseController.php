@@ -43,7 +43,7 @@ class BaseController{
 		return $template;
 	}
 
-    public function renderView($template,$variables){
+    public function renderView($template,$variables=array()){
         $this->getTemplateCollection()->render($template, $variables);
     }
 
@@ -114,5 +114,9 @@ class BaseController{
 
 	public function isAdminOnly($action) {
 		return $this->isActionInSet($action, $this->getAdminOnlyActions());
+	}
+
+	public function getWebUser() {
+		return Moskva::getInstance()->getUser();
 	}
 }

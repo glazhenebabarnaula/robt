@@ -25,6 +25,12 @@ class User implements mUser {
 	 */
 	protected $permissions = array();
 
+
+	/**
+	 * @OneToOne(targetEntity="Contract", mappedBy="user")
+	 */
+	protected $contract;
+
 	/**
 	 * Get id
 	 *
@@ -103,5 +109,27 @@ class User implements mUser {
     public function getPermissions()
     {
         return $this->permissions;
+    }
+
+    /**
+     * Set contract
+     *
+     * @param Contract $contract
+     * @return User
+     */
+    public function setContract(\Contract $contract = null)
+    {
+        $this->contract = $contract;
+        return $this;
+    }
+
+    /**
+     * Get contract
+     *
+     * @return Contract 
+     */
+    public function getContract()
+    {
+        return $this->contract;
     }
 }
