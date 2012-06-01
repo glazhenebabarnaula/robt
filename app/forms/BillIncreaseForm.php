@@ -2,14 +2,15 @@
 class BillIncreaseForm extends mModelForm{
     protected function configure()
     {
-        $this->setElement('time', new mInputTimeFormElement());
+        $this->setElement('time', new mInputTimeFormElement('Дата и время начисления'));
         $this->setAttributeValidator('time', new mValidatorTime());
 
         $this->setElement('contract',
             new mForeignKeyInputFormElement(
                 array('modelName' => 'Contract',
                     'columns' => 'number',
-                    'hasEmptyChoice' => false)
+                    'hasEmptyChoice' => false,
+                    'label'=>'Договор')
             ));
         $this->setAttributeValidator('contract',
             new mValidatorForeignKey(
@@ -18,7 +19,7 @@ class BillIncreaseForm extends mModelForm{
                     'model'=>'Contract')
             ));
 
-        $this->setElement('value', new mInputTextFormElement());
+        $this->setElement('value', new mInputTextFormElement(array('label'=>'Размер платежа')));
         $this->setAttributeValidator('value',
             new mValidatorDecimal(array('min'=>0.0)));
     }

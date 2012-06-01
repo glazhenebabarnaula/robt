@@ -4,24 +4,26 @@ class SessionForm extends mModelForm{
     {
         //TODO validate rule begin < end
 
-        $this->setElement('traffic_amount', new mInputTextFormElement());
+        $this->setElement('traffic_amount',
+            new mInputTextFormElement(array('label'=>'Количество трафика (в мегабайтах)')));
         $this->setAttributeValidator('traffic_amount',
             new mValidatorDecimal(array('min'=>0.0)));
 
-        $this->setElement('begin', new mInputTimeFormElement());
+        $this->setElement('begin', new mInputTimeFormElement(array('label'=>'Начало сессии')));
         $this->setAttributeValidator('begin', new mValidatorTime());
 
-        $this->setElement('end', new mInputTimeFormElement());
+        $this->setElement('end', new mInputTimeFormElement(array('label'=>'Конец сессии')));
         $this->setAttributeValidator('end', new mValidatorTime(array('required'=>false)));
 
-        $this->setElement('cost', new mInputTextFormElement());
+        $this->setElement('cost', new mInputTextFormElement(array('label'=>'Стоимость')));
         $this->setAttributeValidator('cost', new mValidatorDecimal(array('min'=>0.0)));
 
         $this->setElement('contract',
             new mForeignKeyInputFormElement(
                 array('modelName' => 'Contract',
                       'columns' => 'number',
-                      'hasEmptyChoice' => false)
+                      'hasEmptyChoice' => false,
+                      'label'=>'Договор')
                 ));
 
         $this->setAttributeValidator('contract',
@@ -35,7 +37,8 @@ class SessionForm extends mModelForm{
             new mForeignKeyInputFormElement(
                 array('modelName' => 'TrafficClass',
                       'columns' => 'name',
-                      'hasEmptyChoice' => false)
+                      'hasEmptyChoice' => false,
+                      'label'=>'Договор')
                 ));
         $this->setAttributeValidator('traffic_class',
             new mValidatorForeignKey(
