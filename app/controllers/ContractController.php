@@ -5,4 +5,9 @@ class ContractController extends CrudController {
 		return array('first_name' => 'Имя');
 	}
 
+	protected function getEntityName()
+	{
+		return 'Договора';
+	}
+
 }

@@ -107,4 +107,8 @@ class Tariff {
     {
         return $this->traffic_classes_costs;
     }
+
+	public function __toString() {
+		return $this->getName();
+	}
 }

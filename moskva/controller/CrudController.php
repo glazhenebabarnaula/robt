@@ -1,5 +1,9 @@
 <?php
 abstract class CrudController extends BaseController {
+	public function before() {
+		$this->setVar('entity_name', $this->getEntityName());
+	}
+
 	protected function buildDefaultTemplateCollection() {
 		return new TemplateCollection(Moskva::getInstance()->getInstance()->getMoskvaViewsPath(), 'crud');
 	}
@@ -86,7 +90,7 @@ abstract class CrudController extends BaseController {
 
 		$form = $this->processEntityFormRequest($entity);
 
-		$this->renderView('update', array('form' => $form, 'entity' => $entity));
+		$this->renderView('create', array('form' => $form, 'entity' => $entity));
 	}
 
 	public function deleteAction($id) {
@@ -105,6 +109,10 @@ abstract class CrudController extends BaseController {
 
 	protected function getLayoutName() {
 		return 'master';
+	}
+
+	protected function getEntityName() {
+		return '';
 	}
 
 	protected function getAuthenticatedOnlyActions()
