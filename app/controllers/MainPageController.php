@@ -1,5 +1,5 @@
 <?php
-class MainPageController extends BaseController{
+class MainPageController extends BaseController {
 
 	protected function getAuthenticatedOnlyActions()
 	{

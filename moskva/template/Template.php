@@ -27,8 +27,24 @@ class Template extends mComponent {
 		return $content;
 	}
 
+	public function getController() {
+		return Moskva::getInstance()->getController();
+	}
+
 	public function createUrl() {
 		$args = func_get_args();
-		call_user_func_array(array(Moskva::getInstance()->getController(), 'createUrl'), $args);
+		return call_user_func_array(array($this->getController(), 'createUrl'), $args);
+	}
+
+	public function getControllerVar($k, $v = null) {
+		return $this->getController()->getVar($k, $v);
+	}
+
+	public function setControllerVar($k, $v) {
+		$this->getController()->setVar($k, $v);
+	}
+
+	public function getWebUser() {
+		return Moskva::getInstance()->getUser();
 	}
 }

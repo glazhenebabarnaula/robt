@@ -7,6 +7,20 @@ class BaseController{
 
 	protected $layout = 'master';
 
+	private $vars = array();
+
+	public function getVar($key, $default = null) {
+		if (isset($this->vars[$key])) {
+			return $this->vars[$key];
+		}
+
+		return $default;
+	}
+
+	public function setVar($key, $value) {
+		$this->vars[$key] = $value;
+	}
+
     public function before(){}
     public function after(){}
 
@@ -56,6 +70,7 @@ class BaseController{
 	}
 
 	public function createUrl() {
+		$all = func_get_args();
 		$params = array();
 		$controllerName = $this->getControllerName();
 		$action = func_get_arg(0);

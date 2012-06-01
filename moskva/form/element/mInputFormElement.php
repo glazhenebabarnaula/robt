@@ -5,24 +5,39 @@ abstract class mInputFormElement extends mFormElement {
 	protected $attributes = array();
 	protected $label;
 
-	public function render($attributes = array())
-	{
-		$this->renderLabel();
-		echo $this->renderInput($attributes);
-		if (count($this->errors) > 0) {
-			$this->renderErrors();
-		}
+	protected function getIdByName() {
+		return preg_replace('/\[\]/', '_', $this->getName());
 	}
 
-	public function renderLabel() {
-		echo $this->label;
+	public function render($attributes = array())
+	{
+		$id = isset($attributes['id']) ? $attributes['id'] : $this->getIdByName();
+		$attributes['id'] = $id;
+
+		$label = $this->renderLabel($attributes);
+		$input = $this->renderInput($attributes);
+		$errors = "";
+
+		if (count($this->errors) > 0) {
+			$errors = $this->renderErrors();
+		}
+
+		return $label . $input . $errors;
+	}
+
+	public function renderLabel($attributes = array()) {
+		$id = isset($attributes['id']) ? $attributes['id'] : $this->getIdByName();;
+		$result = $this->renderTag('label', $this->label ? $this->label : '', array('for' => $id));
+		return $result;
 	}
 
 
 	public function renderErrors() {
+		$result = "";
 		foreach ($this->getErrors() as $error) {
-			$this->renderError($error);
+			$result .= $this->renderError($error);
 		}
+		return $result;
 	}
 
 	protected function renderTag($tag = 'input', $content = null, $attributes = array()) {
@@ -57,7 +72,7 @@ abstract class mInputFormElement extends mFormElement {
 	}
 
 	protected function renderError($errorMsg) {
-		echo $this->renderTag('span', $errorMsg, array('class' => 'error'));
+		return $this->renderTag('span', $errorMsg, array('class' => 'error'));
 	}
 
 	public abstract function renderInput($attributes = array());

@@ -1,0 +1,130 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+body {
+	FONT: 0.81em/1.5 Tahoma, Verdana, Geneva, Arial, Helvetica, sans-serif; BACKGROUND:#eee;
+
+}
+.header {
+	DISPLAY: block;PADDING-BOTTOM: 2px; PADDING-LEFT: 50px; PADDING-RIGHT: 50px; COLOR: #007e99; FONT-SIZE: 2.5em; PADDING-TOP: 2px
+}
+nav {
+	DISPLAY: block; PADDING-BOTTOM: 20px; MARGIN: 5px 0px; PADDING-LEFT: 50px; PADDING-RIGHT: 50px; FONT-SIZE: 1.5em; PADDING-TOP: 2px
+}
+ul {
+	LIST-STYLE-TYPE: none; LIST-STYLE-IMAGE: none
+}
+ol {
+	LIST-STYLE-TYPE: none; LIST-STYLE-IMAGE: none
+}
+h1 {
+	FONT-SIZE: 2.3em;
+	color:#007e99
+}
+h2 {
+	color:#007e99	
+}
+label {
+	FONT-SIZE: 1.3em;
+	color:#007e99
+	
+}
+ul.site-navigation {
+	height: 30px;
+	background-color: #3DA4B7;
+}
+ul.site-navigation li {
+	line-height: 30px;
+	height: 30px;
+	float:left;
+	width:auto;
+}
+ul.site-navigation li a{
+	display: block;
+	color: #fff;
+	text-decoration:none;
+	padding: 0 10px;
+}
+/* Добавим анимацию при наведении */
+ul.site-navigation li a:hover{
+	background-color: #57BCCC;
+}
+section {
+	DISPLAY: block; POSITION: relative; PADDING-BOTTOM: 35px; PADDING-LEFT: 50px; WIDTH: 70%; PADDING-RIGHT: 0px; FLOAT: left; PADDING-TOP: 35px
+}
+#login {
+	margin: 20px auto;
+	width: 610px;
+}
+
+
+fieldset {
+	margin: 0 0 20px;
+	padding: 20px;
+	border:none
+}
+fieldset ol{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;	
+}
+fieldset ol li
+	{
+		margin: 0 0 12px;
+		position: relative;
+	}
+label
+	{
+		width: 150px;
+		display: inline-block;
+		vertical-align: top;
+	}
+fieldset input
+	{
+		background:#B4CFFA;	
+		display: inline-block;
+		width:200px;
+		border: 1px solid #E8E8E8;
+		padding: 3px 26px 3px 3px
+	}
+
+#value_of_charge  {
+	width:70px;	
+}
+fieldset select, option
+	{
+		background:#B4CFFA;	
+		display: inline-block;
+		width: 100px;
+		border: 1px solid #E8E8E8;
+		padding: 3px 26px 3px 3px
+	}
+fieldset option		{ width: 100px; padding: 3px; }
+
+#table1 {
+	
+	
+	height:auto;
+	border:1;
+	border-color:#B4CFFA;
+	CELLSPACING:0px;	
+}
+TABLE {
+	BORDER-SPACING: 0; BORDER-COLLAPSE: collapse; border-color:#CCC
+}
+#table1 {
+	width:350px;
+	height:150px;
+	text-align:center;
+}
+.header_row{
+	background-color:#B4CFFA	
+}
+.error {
+	background-color:#F00
+}
+footer {
+	DISPLAY: block; PADDING-BOTTOM: 10px; PADDING-LEFT: 50px; PADDING-RIGHT: 50px; COLOR: #777; CLEAR: both; PADDING-TOP: 10px
+}
+

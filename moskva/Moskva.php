@@ -196,7 +196,10 @@ class Moskva {
 				}
 
                 $args = $this->getArgumentsOfAction($controllerClassName,$actionMethodName);
+
+				$instance->before();
                 $instance->$actionMethodName($args);
+				$instance->after();
                 exit();
             }
         }

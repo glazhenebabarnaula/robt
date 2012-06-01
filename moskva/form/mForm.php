@@ -37,15 +37,25 @@ abstract class mForm extends mComponent implements ArrayAccess {
 
 	abstract protected function configure();
 
-	public function render() {
+	public function render($menuStyle = false) {
+		$result = "";
 		foreach ($this->subForms as $subForm) {
-			$subForm->render();
+			$result .= $subForm->render();
 		}
 
 		foreach ($this->elements as $name => $element) {
-			$element->render(array());
-			echo "<br/>";
+			if ($menuStyle) {
+				$result .= "<li>";
+			}
+			$result .= $element->render(array());
+			if ($menuStyle) {
+				$result .= "</li>";
+			} else {
+				$result .= "<br/>";
+			}
 		}
+
+		return $result;
 	}
 
 	private function addError($k, $message) {
@@ -108,8 +118,9 @@ abstract class mForm extends mComponent implements ArrayAccess {
 		}
 
 		$wasInvalidSubForm = false;
-		foreach ($this->subForms as $form) {
+		foreach ($this->subForms as $k => $form) {
 			$wasInvalidSubForm |= !$form->validate();
+			$this->values[$k] = $form->getValues();
 		}
 
 		$this->values = $values;
