@@ -1,5 +1,5 @@
 <fieldset>
 	<ol>
-	<?php echo $form->render(); ?>
+	<?php echo $form->render(true); ?>
 	</ol>
 </fieldset>

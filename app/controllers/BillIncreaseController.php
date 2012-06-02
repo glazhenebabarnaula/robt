@@ -2,7 +2,7 @@
 class BillIncreaseController extends CrudController{
     public function getGridColumns()
     {
-        return array('time' => 'Время пополнения',
+        return array('time_format' => 'Время пополнения',
                     'value'=>'Размер пополнения');
     }
 
@@ -20,10 +20,23 @@ class BillIncreaseController extends CrudController{
         $this->redirectToContract($entity);
     }
 
-    protected function afterDelete($entity)
-    {
-        $this->redirectToContract($entity);
-    }
+	protected function beforeFormSave($entity, $form) {
+		$oldValue = $entity->getValue();
+		if (empty($oldValue)) {
+			$oldValue = 0.0;
+		}
+		parent::beforeFormSave($entity, $form);
+		BillingCalculator::getInstance()->processBillIncrease($entity, $oldValue);
+	}
+
+	protected function beforeDelete($entity) {
+		BillingCalculator::getInstance()->processBillIncreaseDelete($entity);
+	}
+
+	protected function afterDelete($entity)
+	{
+		$this->redirectToContract($entity);
+	}
 
     protected function buildNewEntity() {
         if (!isset($_GET['contract_id'])) {

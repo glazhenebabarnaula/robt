@@ -1,0 +1,1 @@
+<a href="<?php echo $this->createUrl('index'); ?>">К списку</a><br/>

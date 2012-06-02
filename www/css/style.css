@@ -113,9 +113,7 @@ fieldset option		{ width: 100px; padding: 3px; }
 TABLE {
 	BORDER-SPACING: 0; BORDER-COLLAPSE: collapse; border-color:#CCC
 }
-#table1 {
-	width:350px;
-	height:150px;
+.entity-table {
 	text-align:center;
 }
 .header_row{

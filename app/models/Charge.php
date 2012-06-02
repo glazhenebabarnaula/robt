@@ -13,12 +13,12 @@ class Charge {
 
 	/**
 	 * @ManyToOne(targetEntity="Contract", inversedBy="charges")
-	 * @JoinColumn(name="contract_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="contract_id", referencedColumnName="id", onDelete="CASCADE",nullable=false)
 	 */
 	protected $contract;
 	/**
 	 * @ManyToOne(targetEntity="ChargeType")
-	 * @JoinColumn(name="charge_type_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="charge_type_id", referencedColumnName="id", onDelete="CASCADE",nullable=false)
 	 */
 	protected $charge_type;
 	/**
@@ -153,5 +153,9 @@ class Charge {
 	public function calculateValue() {
 		$this->setValue($this->getCurrentValue());
 		return $this->getValue();
+	}
+
+	public function getTimeFormat() {
+		return $this->getTime()->format('Y-m-d H:i');
 	}
 }

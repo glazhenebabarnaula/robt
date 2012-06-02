@@ -15,10 +15,6 @@ class SessionForm extends mModelForm{
         $this->setElement('end', new mInputTimeFormElement(array('label'=>'Конец сессии')));
         $this->setAttributeValidator('end', new mValidatorTime(array('required'=>false)));
 
-        $this->setElement('cost', new mInputTextFormElement(array('label'=>'Стоимость')));
-        $this->setAttributeValidator('cost', new mValidatorDecimal(array('min'=>0.0)));
-
-
 
         $this->setElement('traffic_class',
             new mForeignKeyInputFormElement(

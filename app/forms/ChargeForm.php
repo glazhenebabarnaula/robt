@@ -4,8 +4,19 @@ class ChargeForm extends mModelForm{
         $this->setElement('time',new mInputTimeFormElement(array('label'=>'Время')));
         $this->setAttributeValidator('time',new mValidatorDate());
 
-        $this->setElement('value', new mInputTextFormElement(array('label'=>'Размер начисления')));
-        $this->setAttributeValidator('value', new mValidatorDecimal());
+		$this->setElement('charge_type',
+			new mForeignKeyInputFormElement(
+				array('modelName' => 'ChargeType',
+					'columns' => 'name',
+					'hasEmptyChoice' => false,
+					'label'=>'Тип начисления')
+			));
+		$this->setAttributeValidator('charge_type',
+			new mValidatorForeignKey(
+				array('required'=>true,
+					'choices'=>array_keys($this->getElement('charge_type')->getChoices()),
+					'model'=>'ChargeType')
+			));
     }
 
 }

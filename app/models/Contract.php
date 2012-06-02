@@ -12,7 +12,7 @@ class Contract {
 
 	/**
 	 * @OneToOne(targetEntity="User",cascade={"persist"})
-	 * @JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE",nullable=false)
 	 */
 	protected $user;
 
@@ -58,7 +58,7 @@ class Contract {
 
 	/**
 	 * @ManyToOne(targetEntity="Tariff")
-	 * @JoinColumn(name="tariff_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="tariff_id", referencedColumnName="id", onDelete="CASCADE",nullable=false)
 	 */
 	protected $tariff;
 

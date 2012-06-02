@@ -5,6 +5,10 @@ class mValidatorDate extends mValidatorAttribute{
 			return $value;
 		}
 
+		if (empty($value)) {
+			return null;
+		}
+
         $date = date_create($value);
         if(!$date){
             throw new mValidationException('Неправильный формат даты');

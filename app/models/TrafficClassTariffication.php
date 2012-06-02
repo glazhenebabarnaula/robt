@@ -11,13 +11,13 @@ class TrafficClassTariffication {
 	protected $id;
 	/**
 	 * @ManyToOne(targetEntity="TrafficClass", inversedBy="tarifications")
-	 * @JoinColumn(name="traffic_class_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="traffic_class_id", referencedColumnName="id", onDelete="CASCADE",nullable=false)
 	 */
 	protected $traffic_class;
 
 	/**
 	 * @ManyToOne(targetEntity="Tariff", inversedBy="traffic_classes_costs")
-	 * @JoinColumn(name="tariff_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="tariff_id", referencedColumnName="id", onDelete="CASCADE",nullable=false)
 	 */
 	protected $tariff;
 

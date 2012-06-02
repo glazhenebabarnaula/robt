@@ -3,8 +3,11 @@ class ChargeController extends CrudController{
     public function getGridColumns()
     {
         return
-            array('id'=>'Id',
-                  'value'=>'Размер');
+            array(
+				'time_format' => 'Время',
+				'charge_type' => 'Тип',
+                  'value'=>'Размер',
+				);
     }
 
     protected function getEntityName()
@@ -16,19 +19,31 @@ class ChargeController extends CrudController{
         $this->redirect(array('Contract', 'update', array('id' => $entity->getContract()->getId())));
     }
 
+
+
     protected function afterFormSave($entity)
     {
         $this->redirectToContract($entity);
     }
 
+	protected function beforeFormSave($entity, $form) {
+		parent::beforeFormSave($entity, $form);
+		BillingCalculator::getInstance()->processCharge($entity);
+	}
+
+	protected function beforeDelete($entity) {
+		BillingCalculator::getInstance()->processChargeDelete($entity);
+	}
+
     protected function afterDelete($entity)
     {
+
         $this->redirectToContract($entity);
     }
 
     protected function buildNewEntity() {
         if (!isset($_GET['contract_id'])) {
-            throw new MoskvaHttpException(404);
+            //throw new MoskvaHttpException(404);
         }
 
         $contract_id = $_GET['contract_id'];

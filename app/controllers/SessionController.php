@@ -3,9 +3,13 @@ class SessionController extends CrudController{
     public function getGridColumns()
     {   //TODO begin & end
         return
-            array('id'=>'Id',
-                'cost'=>'Стоимость',
-                'traffic_amount'=>'Количество трафика');
+            array(
+				'begin_format' => 'Начало',
+				'end_format' => 'Конец',
+				'traffic_class' => 'Класс трафика',
+                'traffic_amount'=>'Количество трафика',
+				'cost'=>'Стоимость',
+			);
     }
 
     protected function getEntityName()
@@ -22,10 +26,19 @@ class SessionController extends CrudController{
         $this->redirectToContract($entity);
     }
 
-    protected function afterDelete($entity)
-    {
-        $this->redirectToContract($entity);
-    }
+	protected function beforeFormSave($entity, $form) {
+		parent::beforeFormSave($entity, $form);
+		BillingCalculator::getInstance()->processSession($entity);
+	}
+
+	protected function beforeDelete($entity) {
+		BillingCalculator::getInstance()->processSessionDelete($entity);
+	}
+
+	protected function afterDelete($entity)
+	{
+		$this->redirectToContract($entity);
+	}
 
     protected function buildNewEntity() {
         if (!isset($_GET['contract_id'])) {

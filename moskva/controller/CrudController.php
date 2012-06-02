@@ -65,13 +65,17 @@ abstract class CrudController extends BaseController {
 		$this->redirect(array('update', array('id' => $entity->getId())));
 	}
 
+	protected function beforeFormSave($entity, $form) {
+		$form->updateModel();
+	}
+
 	protected function processEntityFormRequest($entity) {
 		$form = $this->buildForm($entity);
 
 		if ($this->isPostRequest()) {
 			$form->loadDataFromRequest();
 			if ($form->validate()) {
-				$form->updateModel();
+				$this->beforeFormSave($entity, $form);
 				$this->getEntityManager()->persist($entity);
 				$this->getEntityManager()->flush();
 				$this->afterFormSave($entity);
@@ -97,6 +101,10 @@ abstract class CrudController extends BaseController {
 		$this->renderView('create', array('form' => $form, 'entity' => $entity));
 	}
 
+	protected function beforeDelete($entity) {
+
+	}
+
 	protected function afterDelete($entity) {
 		$this->redirect(array('index'));
 	}
@@ -108,6 +116,8 @@ abstract class CrudController extends BaseController {
 		}
 
 		$entity = $this->loadEntity($id);
+
+		$this->beforeDelete($entity);
 
 		$this->deleteEntity($id);
 

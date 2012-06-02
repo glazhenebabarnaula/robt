@@ -2,7 +2,6 @@
 abstract class mInputFormElement extends mFormElement {
 
 	protected $name;
-	protected $attributes = array();
 	protected $label;
 
 	protected function getIdByName() {
@@ -15,7 +14,7 @@ abstract class mInputFormElement extends mFormElement {
 		$attributes['id'] = $id;
 
 		$label = $this->renderLabel($attributes);
-		$input = $this->renderInput($attributes);
+		$input = $this->renderInput($this->getAttributes($attributes));
 		$errors = "";
 
 		if (count($this->errors) > 0) {
@@ -41,7 +40,6 @@ abstract class mInputFormElement extends mFormElement {
 	}
 
 	protected function renderTag($tag = 'input', $content = null, $attributes = array()) {
-		$attributes = array_merge($attributes, $this->attributes);
 
 		$attributesStr = "";
 

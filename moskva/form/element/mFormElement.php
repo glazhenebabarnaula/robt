@@ -3,8 +3,13 @@ abstract class mFormElement extends mComponent {
 	protected $name;
 	protected $value;
 	protected $errors = array();
+	protected $attributes = array();
 
 	abstract public function render($attributes = array());
+
+	protected function getAttributes($attributes = array()) {
+		return array_merge($this->attributes, $attributes);
+	}
 
 	public function setName($name)
 	{

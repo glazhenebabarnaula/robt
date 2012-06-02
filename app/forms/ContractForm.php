@@ -13,10 +13,19 @@ class ContractForm extends mModelForm{
         $this->setElement('date', new mInputDateFormElement(array('label' => 'Дата заключения')));
         $this->setAttributeValidator('date', new mValidatorDate());
 
-        $this->setElement('balance', new mInputTextFormElement(array('label' => 'Баланс')));
-        $this->setAttributeValidator('balance', new mValidatorDecimal());
+		$this->setElement('tariff', new mForeignKeyInputFormElement(array('modelName' => 'Tariff', 'columns' => 'name', 'label' => 'Тариф')));
 
-		$this->setSubForm('user', new UserForm($this->getModel()->getUser()));
+		$this->setAttributeValidator('tariff',
+			new mValidatorForeignKey(
+				array(
+					'required' => false,
+					'choices' => array_keys($this->getElement('tariff')->getChoices()),
+					'model' => 'Tariff',
+				)
+			)
+		);
+
+  		$this->setSubForm('user', new UserForm($this->getModel()->getUser()));
     }
 
 }

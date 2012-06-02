@@ -42,6 +42,22 @@ class BillingCalculator extends mComponent {
 	}
 
 	public function processBillIncrease(BillIncrease $increase, $oldValue = 0) {
-		$this->updateContractBilledItemCost($increase->getContract(), $oldValue, $increase->getValue());
+		$this->updateContractBilledItemCost($increase->getContract(), $oldValue, -$increase->getValue());
+	}
+
+	public function processSessionDelete(Session $session) {
+		$oldCost = $session->getCost();
+
+		$this->updateContractBilledItemCost($session->getContract(), $oldCost, 0);
+	}
+
+	public function processChargeDelete(Charge $charge) {
+		$oldCost = $charge->getValue();
+
+		$this->updateContractBilledItemCost($charge->getContract(), $oldCost, 0);
+	}
+
+	public function processBillIncreaseDelete(BillIncrease $increase) {
+		$this->updateContractBilledItemCost($increase->getContract(), -$increase->getValue(), 0);
 	}
 }

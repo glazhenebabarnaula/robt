@@ -2,7 +2,7 @@
 $controller = isset($controller) ? $controller : $this->getController();
 $fields = $controller->getGridColumns();
 ?>
-<table id="table1" border="2" >
+<table class="entity-table" border="2" >
 	<tr class="header_row">
 		<?php foreach ($fields as $fieldLabel): ?>
 		<td><?php echo $fieldLabel; ?></td>

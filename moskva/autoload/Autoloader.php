@@ -32,6 +32,8 @@ class Autoloader{
 			$this->importMoskvaDir($dir);
 		}
 
+		require_once $this->moskvaDir . '/exception/MoskvaException.php';
+
 		$this->loadDoctrine();
 	}
 

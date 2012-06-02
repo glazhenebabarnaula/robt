@@ -27,13 +27,13 @@ class Session {
 
 	/**
 	 * @ManyToOne(targetEntity="Contract", inversedBy="sessions")
-	 * @JoinColumn(name="contract_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="contract_id", referencedColumnName="id", onDelete="CASCADE", nullable=False)
 	 */
 	protected $contract;
 
 	/**
 	 * @ManyToOne(targetEntity="TrafficClass")
-	 * @JoinColumn(name="traffic_class_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="traffic_class_id", referencedColumnName="id", onDelete="CASCADE", nullable=False)
 	 */
 	protected $traffic_class;
 
@@ -231,5 +231,17 @@ class Session {
 	public function calculateCost() {
 		$this->setCost($this->getSessionTotalCost());
 		return $this->getCost();
+	}
+
+	const timeFormat = 'Y-m-d H:i';
+	public function getBeginFormat() {
+		return $this->getBegin()->format(self::timeFormat);
+	}
+
+	public function getEndFormat() {
+		if (!$this->getEnd()) {
+			return '';
+		}
+		return $this->getEnd()->format(self::timeFormat);
 	}
 }

@@ -5,7 +5,7 @@
  */
 
 ?>
-<a href="<?php echo $this->createUrl('index'); ?>">К списку</a><br/>
+<?php $this->renderPartial('_before_form', array('model' => $form->getModel() )); ?>
 <form method="POST">
 	<h2><?php echo $this->getControllerVar('entity_name', ''); ?></h2>
 	<?php echo $this->renderPartial('_form', array('form' => $form)); ?>

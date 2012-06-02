@@ -17,7 +17,7 @@ class BillIncrease {
 
 	/**
 	 * @ManyToOne(targetEntity="Contract", inversedBy="bill_increases")
-	 * @JoinColumn(name="contract_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @JoinColumn(name="contract_id", referencedColumnName="id", onDelete="CASCADE", nullable=false)
 	 */
 	protected $contract;
 
@@ -26,7 +26,13 @@ class BillIncrease {
 	 */
 	protected $value;
 
-    /**
+	function __construct()
+	{
+		$this->time = new DateTime('now');
+	}
+
+
+	/**
      * Get id
      *
      * @return integer 
@@ -101,4 +107,8 @@ class BillIncrease {
     {
         return $this->contract;
     }
+
+	public function getTimeFormat() {
+		return $this->getTime()->format('Y-m-d H:i');
+	}
 }

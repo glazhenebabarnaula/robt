@@ -6,4 +6,8 @@ class TrafficClassController extends CrudController{
             array('name'=>'Класс трафика',
                   'iptables_rule'=>'Правило iptable');
     }
+
+	protected function getEntityName() {
+		return 'Классы трафика';
+	}
 }

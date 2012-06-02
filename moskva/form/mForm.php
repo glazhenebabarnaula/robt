@@ -40,7 +40,7 @@ abstract class mForm extends mComponent implements ArrayAccess {
 	public function render($menuStyle = false) {
 		$result = "";
 		foreach ($this->subForms as $subForm) {
-			$result .= $subForm->render();
+			$result .= $subForm->render($menuStyle);
 		}
 
 		foreach ($this->elements as $name => $element) {

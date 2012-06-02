@@ -21,11 +21,8 @@
 	<?php if ($this->getWebUser()->getModel()->hasAccess('admin')): ?>
 		<?php
 			$menu = array(
-				array('Тарифы', array('Tariff', 'index')),
 				array('Договоры', array('Contract', 'index')),
-				array('Пополнения', array('BillIncrease', 'index')),
-				array('Начисления', array('Charge', 'index')),
-				array('Сессии', array('Session', 'index')),
+				array('Тарифы', array('Tariff', 'index')),
 				array('Классы трафика', array('TrafficClass', 'index')),
 				array('Типы начислений', array('ChargeType', 'index')),
 			);
