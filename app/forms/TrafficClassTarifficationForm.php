@@ -34,6 +34,6 @@ class TrafficClassTarifficationForm extends mModelForm{
         $this->setAttributeValidator('minute_cost', new mValidatorDecimal(array('min'=>0.0)));
 
         $this->setElement('megabyte_cost', new mInputTextFormElement(array('label'=>'Стоимость мегабайта')));
-        $this->setAttributeValidator('minute_cost', new mValidatorDecimal(array('min'=>0.0)));
+        $this->setAttributeValidator('megabyte_cost', new mValidatorDecimal(array('min'=>0.0)));
     }
 }
