@@ -15,21 +15,6 @@ class TrafficClassTarifficationForm extends mModelForm{
                     'choices'=>array_keys($this->getElement('traffic_class')->getChoices()),
                     'model'=>'TrafficClass')
             ));
-
-        $this->setElement('tariff',
-            new mForeignKeyInputFormElement(
-                array('modelName' => 'Tariff',
-                    'columns' => 'name',
-                    'hasEmptyChoice' => false,
-                    'label'=>'Тариф')
-            ));
-        $this->setAttributeValidator('tariff',
-            new mValidatorForeignKey(
-                array('required'=>true,
-                    'choices'=>array_keys($this->getElement('tariff')->getChoices()),
-                    'model'=>'Tariff')
-            ));
-
         $this->setElement('minute_cost', new mInputTextFormElement(array('label'=>'Стоимость минуты')));
         $this->setAttributeValidator('minute_cost', new mValidatorDecimal(array('min'=>0.0)));
 

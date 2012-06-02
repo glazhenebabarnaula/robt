@@ -26,7 +26,7 @@ abstract class mValidatorAttribute extends mValidator {
 	}
 
 	protected function doCleanValue($value) {
-		if ($this->required && empty($value)) {
+		if ($this->required && ($value === '' || $value === null)) {
 			throw new mValidationException($this->message_required);
 		}
 
