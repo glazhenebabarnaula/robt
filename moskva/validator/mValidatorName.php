@@ -6,7 +6,7 @@ class mValidatorName extends mValidatorString{
     {
         $value = parent::cleanValue($value);
 
-        $matched = preg_match('/^[\p{L}]+$/u', $value);
+        $matched = preg_match('/^[{L}]+$/u', $value);
         if(!$matched){
             throw new mValidationException('В имени должны быть только буквы');
         }

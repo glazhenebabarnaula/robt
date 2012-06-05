@@ -120,7 +120,8 @@ TABLE {
 	background-color:#B4CFFA	
 }
 .error {
-	background-color:#F00
+	/*background-color:#F00;*/
+    color: red;
 }
 footer {
 	DISPLAY: block; PADDING-BOTTOM: 10px; PADDING-LEFT: 50px; PADDING-RIGHT: 50px; COLOR: #777; CLEAR: both; PADDING-TOP: 10px
