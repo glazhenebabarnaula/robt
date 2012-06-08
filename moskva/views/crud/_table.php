@@ -16,7 +16,7 @@ $fields = $controller->getGridColumns();
 		<?php foreach (array_keys($fields) as $fieldKey): ?>
 		<?php $getterName = mInflector::getterMethod($fieldKey); ?>
 		<td>
-			<?php echo $entity->$getterName(); ?>
+			<?php echo htmlspecialchars($entity->$getterName()); ?>
 		</td>
 		<?php endforeach; ?>
 		<td>

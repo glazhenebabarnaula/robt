@@ -64,7 +64,7 @@ abstract class mInputFormElement extends mFormElement {
 	protected function renderInputTag($name, $value, $type, $attributes = array()) {
 		$attributes['name'] = $name;
 		$attributes['value'] = $value;
-		$attributes['type'] = $type;
+		$attributes['type'] = isset($attributes['type']) ? $attributes['type'] : $type;
 
 		return $this->renderTag('input', null, $attributes);
 	}

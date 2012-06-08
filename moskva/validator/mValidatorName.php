@@ -1,6 +1,7 @@
 <?php
 class mValidatorName extends mValidatorString{
     protected $min_length = 5;
+	protected $max_length = 10;
 
     protected function cleanValue($value)
     {

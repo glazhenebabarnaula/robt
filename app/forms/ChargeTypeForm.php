@@ -7,6 +7,8 @@ class ChargeTypeForm extends mModelForm {
 		$this->setAttributeValidator('name', new mValidatorString());
 
         $this->setElement('crontab_rule', new mInputTextFormElement(array('label'=>'Правило crontab')));
-        $this->setAttributeValidator('crontab_rule', new mValidatorString(array('required'=>false)));
+        $this->setAttributeValidator('crontab_rule', new mValidatorRegexp(array('required'=>false,
+			'pattern' => '#^(?:(?:\*|[0-9]{1,2})/(?:\*|[0-9]{1,2})\s?){3,4}$#'
+		)));
 	}
 }

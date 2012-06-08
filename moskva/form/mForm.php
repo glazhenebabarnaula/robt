@@ -119,11 +119,11 @@ abstract class mForm extends mComponent implements ArrayAccess {
 
 		$wasInvalidSubForm = false;
 		foreach ($this->subForms as $k => $form) {
-			$wasInvalidSubForm |= !$form->validate();
-			$this->values[$k] = $form->getValues();
+			$wasInvalidSubForm = !$form->validate() || $wasInvalidSubForm;
+			$values[$k] = $form->getValues();
 		}
 
-		$this->values = $values;
+		$this->loadValues($values);
 
 		return !$this->hasErrors() && !$wasInvalidSubForm;
 	}
