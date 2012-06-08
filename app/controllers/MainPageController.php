@@ -7,7 +7,7 @@ class MainPageController extends BaseController {
 	}
 
 	protected function getAdminOnlyActions() {
-		return array('admin');
+		return array('showAdminPanel');
 	}
 
 	public function showAdminPanelAction() {

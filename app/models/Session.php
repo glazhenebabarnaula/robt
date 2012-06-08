@@ -224,7 +224,7 @@ class Session {
 	}
 
 	private function getSessionTotalCost() {
-		return $this->getSessionTrafficCost() + $this->getSessionTrafficCost();
+		return $this->getSessionLengthCost() + $this->getSessionTrafficCost();
 	}
 
 
