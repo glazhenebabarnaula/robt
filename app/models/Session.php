@@ -23,7 +23,7 @@ class Session {
 	/**
 	 * @Column(type="decimal", nullable=false)
 	 */
-	protected $traffic_amount;
+	protected $traffic_amount = 0;
 
 	/**
 	 * @ManyToOne(targetEntity="Contract", inversedBy="sessions")

@@ -112,7 +112,11 @@ abstract class mForm extends mComponent implements ArrayAccess {
 		foreach ($this->validators as $k => $validator) {
 			try {
 				$values = $validator->cleanValues($values);
-			} catch (mValidationException $e) {
+			}
+			catch (mGeneralValidatorException $e) {
+				$this->addError($e->getElementName(), $e->getMessage());
+			}
+			catch (mValidationException $e) {
 				$this->addError($k, $e->getMessage());
 			}
 		}

@@ -15,7 +15,6 @@ class SessionForm extends mModelForm{
         $this->setElement('end', new mInputTimeFormElement(array('label'=>'Конец сессии')));
         $this->setAttributeValidator('end', new mValidatorTime(array('required'=>false)));
 
-
         $this->setElement('traffic_class',
             new mForeignKeyInputFormElement(
                 array('modelName' => 'TrafficClass',
@@ -29,6 +28,9 @@ class SessionForm extends mModelForm{
                       'choices'=>array_keys($this->getElement('traffic_class')->getChoices()),
                       'model'=>'TrafficClass')
             ));
+
+		$this->addValidator(new mValidatorDateDiff(
+			array('date1'=>'begin','date2'=>'end','errorMsg'=>'Конец сессии не может быть раньше начала')));
     }
 
 }
